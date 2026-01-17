@@ -1,125 +1,114 @@
 import { Button } from "@/components/ui/button";
-import { Users, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-interface FleetCategory {
-  title: string;
-  description: string;
-  image: string;
-  passengerRange: string;
-  vehicles: { name: string; capacity: number }[];
-}
-
-const fleetCategories: FleetCategory[] = [
+const fleetCategories = [
   {
     title: "Party Buses",
-    description: "Sound systems, LED lighting, and space to celebrate",
+    subtitle: "Accommodates 20-50 passengers",
     image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
-    passengerRange: "20-50",
-    vehicles: [
-      { name: "20 Passenger Party Bus", capacity: 20 },
-      { name: "40 Passenger Party Bus", capacity: 40 },
-      { name: "38 Passenger Party Bus", capacity: 38 },
+    features: [
+      "Premium Sound System",
+      "LED Lighting",
+      "Climate Control",
+      "On-board Restroom",
     ],
   },
   {
     title: "Luxury Limousines",
-    description: "Classic elegance for weddings and VIP events",
+    subtitle: "Accommodates 6-18 passengers",
     image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800",
-    passengerRange: "6-18",
-    vehicles: [
-      { name: "Lincoln Town Car Stretch", capacity: 10 },
-      { name: "Chrysler 300 Limo", capacity: 10 },
-      { name: "Hummer H2 Stretch", capacity: 18 },
+    features: [
+      "Leather Interior",
+      "Mini Bar",
+      "Privacy Divider",
+      "Professional Chauffeur",
     ],
   },
   {
     title: "Coach Buses",
-    description: "Comfortable long-distance travel for large groups",
+    subtitle: "Accommodates 40-56 passengers",
     image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800",
-    passengerRange: "40-56",
-    vehicles: [
-      { name: "54 Passenger Coach", capacity: 54 },
-      { name: "56 Passenger Coach", capacity: 56 },
-      { name: "52 Passenger Coach", capacity: 52 },
+    features: [
+      "Panoramic Windows",
+      "Overhead Storage",
+      "WiFi Available",
+      "Climate Control",
     ],
   },
 ];
 
-const FleetCard = ({ category }: { category: FleetCategory }) => {
-  return (
-    <div className="card-luxury group overflow-hidden">
-      {/* Image */}
-      <div className="relative h-56 overflow-hidden">
-        <img
-          src={category.image}
-          alt={category.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-        <div className="absolute top-4 left-4">
-          <span className="badge-gold">{category.title.split(" ")[0]}</span>
-        </div>
-        <div className="absolute top-4 right-4 flex items-center gap-1 bg-secondary/80 backdrop-blur-sm rounded-full px-3 py-1">
-          <Users className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm text-foreground">{category.passengerRange}</span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6">
-        <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
-          {category.title}
-        </h3>
-        <p className="text-muted-foreground mb-4">{category.description}</p>
-
-        {/* Vehicle List */}
-        <div className="space-y-2 mb-6">
-          {category.vehicles.map((vehicle, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between py-2 border-b border-border last:border-0"
-            >
-              <span className="text-sm text-foreground">{vehicle.name}</span>
-              <span className="text-sm text-muted-foreground">
-                {vehicle.capacity} passengers
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <Button variant="hero" className="w-full">
-          View {category.title}
-          <ArrowRight className="w-4 h-4" />
-        </Button>
-      </div>
-    </div>
-  );
-};
-
 const FleetSection = () => {
   return (
-    <section id="fleet" className="py-20 lg:py-32">
+    <section id="fleet" className="py-24 lg:py-32">
       <div className="container px-4">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">
-            Our Fleet
-          </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-4">
-            Choose Your Perfect Ride
+        <div className="text-center mb-20">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Our <span className="text-gradient-gold">Fleet</span>
           </h2>
-          <div className="section-divider" />
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-6">
+          <div className="section-divider mb-6" />
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             From intimate limousines to full-size coach buses, we have the perfect vehicle for every occasion.
           </p>
         </div>
 
-        {/* Fleet Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Fleet List - Alternating Layout */}
+        <div className="space-y-24 lg:space-y-32">
           {fleetCategories.map((category, index) => (
-            <FleetCard key={index} category={category} />
+            <div
+              key={category.title}
+              className={`flex flex-col ${
+                index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+              } items-center gap-12 lg:gap-20`}
+            >
+              {/* Image */}
+              <div className="w-full lg:w-1/2">
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="w-full lg:w-1/2 space-y-6">
+                <h3 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+                  {category.title}
+                </h3>
+                <p className="text-gold text-lg font-medium">
+                  {category.subtitle}
+                </p>
+                <ul className="space-y-3">
+                  {category.features.map((feature, featureIndex) => (
+                    <li
+                      key={featureIndex}
+                      className="flex items-center gap-3 text-muted-foreground"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant="gold" size="lg" asChild>
+                  <Link to="/services">
+                    View Details
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           ))}
+        </div>
+
+        {/* View All CTA */}
+        <div className="text-center mt-20">
+          <Button variant="outline" size="lg" asChild>
+            <Link to="/services">
+              View All Vehicles
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

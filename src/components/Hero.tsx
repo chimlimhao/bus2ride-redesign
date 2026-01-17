@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -9,9 +10,9 @@ const Hero = () => {
         <img
           src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
           alt="Luxury vehicle interior"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background/50" />
       </div>
 
@@ -27,7 +28,7 @@ const Hero = () => {
           {/* Heading */}
           <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
             Group Transport
-            <span className="block text-gradient">Made Easy</span>
+            <span className="block text-gradient-gold">Made Easy</span>
           </h1>
 
           {/* Subheading */}
@@ -37,29 +38,29 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Button variant="hero" size="xl" className="w-full sm:w-auto">
+            <Button variant="gold" size="xl" className="w-full sm:w-auto">
               Get Instant Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button variant="outline" size="xl" className="w-full sm:w-auto">
-              View Our Fleet
+            <Button variant="outline" size="xl" className="w-full sm:w-auto" asChild>
+              <Link to="/services">View Our Fleet</Link>
             </Button>
           </div>
 
           {/* Trust Indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8 mt-16 animate-fade-up" style={{ animationDelay: "0.4s" }}>
             <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">98%</div>
+              <div className="text-3xl font-bold text-gold">98%</div>
               <div className="text-sm text-muted-foreground">On-Time Rate</div>
             </div>
             <div className="w-px h-10 bg-border hidden sm:block" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">15K+</div>
+              <div className="text-3xl font-bold text-gold">15K+</div>
               <div className="text-sm text-muted-foreground">Happy Customers</div>
             </div>
             <div className="w-px h-10 bg-border hidden sm:block" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">150+</div>
+              <div className="text-3xl font-bold text-gold">150+</div>
               <div className="text-sm text-muted-foreground">Premium Vehicles</div>
             </div>
             <div className="w-px h-10 bg-border hidden sm:block" />
@@ -77,8 +78,8 @@ const Hero = () => {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-2 border-muted-foreground flex items-start justify-center p-2">
-          <div className="w-1 h-2 rounded-full bg-muted-foreground animate-bounce" />
+        <div className="w-6 h-10 rounded-full border-2 border-gold/50 flex items-start justify-center p-2">
+          <div className="w-1 h-2 rounded-full bg-gold animate-bounce" />
         </div>
       </div>
     </section>

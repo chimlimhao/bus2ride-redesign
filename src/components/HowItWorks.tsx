@@ -20,24 +20,21 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-20 lg:py-32 bg-secondary/30">
+    <section className="py-24 lg:py-32 bg-card">
       <div className="container px-4">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">
-            How It Works
-          </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-4">
-            Book in 3 Simple Steps
+        <div className="text-center mb-20">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            How It <span className="text-gradient-gold">Works</span>
           </h2>
-          <div className="section-divider" />
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-6">
+          <div className="section-divider mb-6" />
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             No hidden fees, no complicated process. Just simple, transparent booking.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-3 gap-12 lg:gap-20">
           {steps.map((step, index) => (
             <div key={index} className="relative text-center group">
               {/* Connector Line */}
@@ -46,9 +43,9 @@ const HowItWorks = () => {
               )}
 
               {/* Icon */}
-              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-card border border-border mb-6 group-hover:border-primary transition-colors glow-primary">
-                <step.icon className="w-10 h-10 text-primary" />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-sm font-bold text-primary-foreground">
+              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-background border border-border mb-8 group-hover:border-gold/50 transition-colors">
+                <step.icon className="w-10 h-10 text-gold" />
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gold flex items-center justify-center text-sm font-bold text-gold-foreground">
                   {index + 1}
                 </div>
               </div>
