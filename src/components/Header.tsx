@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
+import QuoteModal from "@/components/QuoteModal";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -53,9 +54,11 @@ const Header = () => {
                 <Phone className="w-4 h-4" />
                 888-535-2566
               </a>
-              <Button variant="gold" size="default">
-                Get a Quote
-              </Button>
+              <QuoteModal>
+                <Button variant="gold" size="default">
+                  Get a Quote
+                </Button>
+              </QuoteModal>
             </div>
           </div>
 
@@ -94,9 +97,11 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                   888-535-2566
                 </a>
-                <Button variant="gold" className="w-full">
-                  Get a Quote
-                </Button>
+                <QuoteModal>
+                  <Button variant="gold" className="w-full">
+                    Get a Quote
+                  </Button>
+                </QuoteModal>
               </div>
             </nav>
           </div>
