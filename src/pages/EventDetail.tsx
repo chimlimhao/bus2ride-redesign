@@ -6,7 +6,7 @@ import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
 import PageHero from "@/components/PageHero";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Users } from "lucide-react";
+import { ArrowRight, Check, Users, Phone } from "lucide-react";
 
 const eventData: Record<string, {
   title: string;
@@ -235,9 +235,12 @@ const EventDetail = () => {
             Get a Quote
             <ArrowRight className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="lg">
-            Call (888) 535-2566
-          </Button>
+          <a href="tel:888-535-2566">
+            <Button variant="outline" size="lg">
+              <Phone className="w-4 h-4" />
+              Call (888) 535-2566
+            </Button>
+          </a>
         </div>
       </PageHero>
 
@@ -262,7 +265,7 @@ const EventDetail = () => {
               <img
                 src={event.image}
                 alt={event.title}
-                className="w-full h-auto rounded-lg object-cover aspect-[4/3]"
+                className="w-full h-auto object-cover aspect-[4/3]"
               />
             </div>
           </div>
@@ -313,7 +316,7 @@ const EventDetail = () => {
             <ul className="space-y-4">
               {event.tips.map((tip, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-gold text-gold-foreground flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                  <span className="w-6 h-6 bg-gold text-gold-foreground flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
                     {index + 1}
                   </span>
                   <span className="text-muted-foreground">{tip}</span>

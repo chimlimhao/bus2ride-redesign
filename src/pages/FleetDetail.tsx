@@ -3,23 +3,31 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import FAQ from "@/components/FAQ";
+import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone, Clock, Users, Check } from "lucide-react";
+import { ArrowRight, Phone, Users, Check, MessageSquare } from "lucide-react";
+
+interface VehicleVariant {
+  id: string;
+  name: string;
+  passengers: string;
+  sweetSpot: string;
+  type: string;
+}
 
 const vehicleData: Record<string, {
   title: string;
-  seats: string;
-  sweetSpot: string;
+  categoryLabel: string;
   description: string;
   mainImage: string;
   gallery: string[];
   features: string[];
   amenities: string[];
+  variants: VehicleVariant[];
 }> = {
   "party-buses": {
     title: "Party Bus",
-    seats: "20-50",
-    sweetSpot: "25-40",
+    categoryLabel: "FEATURED PARTY BUS • 24/7 BOOKING",
     description: "Spacious party buses designed for lively celebrations and group outings. Features premium sound systems, LED lighting, and all the amenities you need for an unforgettable experience.",
     mainImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
     gallery: [
@@ -42,11 +50,17 @@ const vehicleData: Record<string, {
       "Professional Chauffeur",
       "Ice & Cups Provided",
     ],
+    variants: [
+      { id: "party-bus-20", name: "Party Bus 20", passengers: "15-20", sweetSpot: "18", type: "Ford E-450" },
+      { id: "party-bus-25", name: "Party Bus 25", passengers: "20-25", sweetSpot: "22", type: "Freightliner" },
+      { id: "party-bus-30", name: "Party Bus 30", passengers: "25-30", sweetSpot: "28", type: "Freightliner M2" },
+      { id: "party-bus-40", name: "Party Bus 40", passengers: "35-40", sweetSpot: "38", type: "Prevost" },
+      { id: "party-bus-50", name: "Party Bus 50", passengers: "45-50", sweetSpot: "48", type: "MCI Coach" },
+    ],
   },
   "limousines": {
     title: "Stretch Limousine",
-    seats: "6-18",
-    sweetSpot: "8-14",
+    categoryLabel: "FEATURED STRETCH LIMOUSINE • 24/7 BOOKING",
     description: "Classic elegance meets modern luxury. Our stretch limousines provide the perfect setting for weddings, proms, and executive travel with premium amenities and professional service.",
     mainImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
     gallery: [
@@ -69,11 +83,17 @@ const vehicleData: Record<string, {
       "Professional Chauffeur",
       "Red Carpet Service",
     ],
+    variants: [
+      { id: "limo-6", name: "6 Passenger Stretch", passengers: "4-6", sweetSpot: "6", type: "Lincoln Town Car" },
+      { id: "limo-8", name: "8 Passenger Stretch", passengers: "6-8", sweetSpot: "8", type: "Lincoln Navigator" },
+      { id: "limo-10", name: "10 Passenger Stretch", passengers: "8-10", sweetSpot: "10", type: "Chrysler 300" },
+      { id: "limo-14", name: "14 Passenger Stretch", passengers: "12-14", sweetSpot: "14", type: "Hummer H2" },
+      { id: "limo-18", name: "18 Passenger Stretch", passengers: "16-18", sweetSpot: "18", type: "Escalade ESV" },
+    ],
   },
   "coach-buses": {
     title: "Coach Bus",
-    seats: "40-56",
-    sweetSpot: "45-50",
+    categoryLabel: "FEATURED COACH BUS • 24/7 BOOKING",
     description: "Perfect for large groups requiring comfortable long-distance travel. Our coach buses feature panoramic windows, ample storage, and all the amenities for a pleasant journey.",
     mainImage: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
     gallery: [
@@ -96,11 +116,16 @@ const vehicleData: Record<string, {
       "Professional Chauffeur",
       "Luggage Compartment",
     ],
+    variants: [
+      { id: "coach-36", name: "36 Passenger Coach", passengers: "30-36", sweetSpot: "34", type: "MCI J4500" },
+      { id: "coach-45", name: "45 Passenger Coach", passengers: "40-45", sweetSpot: "42", type: "Prevost H3-45" },
+      { id: "coach-50", name: "50 Passenger Coach", passengers: "45-50", sweetSpot: "48", type: "Van Hool CX45" },
+      { id: "coach-56", name: "56 Passenger Coach", passengers: "50-56", sweetSpot: "54", type: "MCI D4505" },
+    ],
   },
   "suv-limos": {
     title: "SUV Limousine",
-    seats: "8-14",
-    sweetSpot: "10-12",
+    categoryLabel: "FEATURED SUV LIMOUSINE • 24/7 BOOKING",
     description: "The perfect blend of rugged style and luxurious comfort. Our SUV limousines offer more headroom and a commanding presence for those who want to make an impression.",
     mainImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
     gallery: [
@@ -123,11 +148,15 @@ const vehicleData: Record<string, {
       "Professional Chauffeur",
       "Ice & Cups Provided",
     ],
+    variants: [
+      { id: "suv-limo-8", name: "8 Passenger SUV Limo", passengers: "6-8", sweetSpot: "8", type: "Cadillac Escalade" },
+      { id: "suv-limo-12", name: "12 Passenger SUV Limo", passengers: "10-12", sweetSpot: "12", type: "Lincoln Navigator" },
+      { id: "suv-limo-14", name: "14 Passenger SUV Limo", passengers: "12-14", sweetSpot: "14", type: "Hummer H2" },
+    ],
   },
   "executive-sedans": {
     title: "Executive Sedan",
-    seats: "3-4",
-    sweetSpot: "2-3",
+    categoryLabel: "FEATURED EXECUTIVE SEDAN • 24/7 BOOKING",
     description: "Professional, understated elegance for corporate executives and discerning travelers. Our executive sedans provide a quiet, comfortable ride with premium amenities.",
     mainImage: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
     gallery: [
@@ -150,11 +179,15 @@ const vehicleData: Record<string, {
       "Professional Chauffeur",
       "Flight Tracking",
     ],
+    variants: [
+      { id: "sedan-3", name: "3 Passenger Sedan", passengers: "2-3", sweetSpot: "3", type: "Mercedes S-Class" },
+      { id: "sedan-4", name: "4 Passenger Sedan", passengers: "3-4", sweetSpot: "4", type: "BMW 7 Series" },
+      { id: "suv-exec", name: "Executive SUV", passengers: "4-6", sweetSpot: "5", type: "Cadillac Escalade" },
+    ],
   },
   "sprinter-vans": {
     title: "Executive Sprinter Van",
-    seats: "10-16",
-    sweetSpot: "12-14",
+    categoryLabel: "FEATURED SPRINTER VAN • 24/7 BOOKING",
     description: "Versatile luxury vans perfect for medium-sized groups. Ideal for corporate travel, wine tours, and group outings with ample space and premium amenities.",
     mainImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
     gallery: [
@@ -176,6 +209,12 @@ const vehicleData: Record<string, {
       "Bluetooth Audio",
       "Professional Chauffeur",
       "Tinted Windows",
+    ],
+    variants: [
+      { id: "sprinter-10", name: "10 Passenger Sprinter", passengers: "8-10", sweetSpot: "10", type: "Mercedes Sprinter" },
+      { id: "sprinter-12", name: "12 Passenger Sprinter", passengers: "10-12", sweetSpot: "12", type: "Mercedes Sprinter" },
+      { id: "sprinter-14", name: "14 Passenger Sprinter", passengers: "12-14", sweetSpot: "14", type: "Mercedes Sprinter" },
+      { id: "sprinter-16", name: "16 Passenger Sprinter", passengers: "14-16", sweetSpot: "16", type: "Ford Transit" },
     ],
   },
 };
@@ -249,45 +288,32 @@ const FleetDetail = () => {
             <div>
               {/* Badges */}
               <div className="flex gap-3 mb-4">
-                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-green-500/20 text-green-400">
-                  Featured {vehicle.title} • 24/7 Booking
-                </span>
-              </div>
-              <div className="mb-4">
-                <span className="px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
-                  Seats {vehicle.seats} • Sweet Spot {vehicle.sweetSpot}
+                <span className="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-green-500/20 text-green-400">
+                  {vehicle.categoryLabel}
                 </span>
               </div>
 
               {/* Title */}
               <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                {vehicle.seats.split("-")[0]} Passenger {vehicle.title}
+                {vehicle.title}
               </h1>
               <p className="text-muted-foreground mb-8">
                 {vehicle.description}
               </p>
 
               {/* Main Image */}
-              <div className="relative rounded-lg overflow-hidden mb-4">
+              <div className="relative overflow-hidden mb-4">
                 <img
                   src={vehicle.mainImage}
                   alt={vehicle.title}
                   className="w-full h-auto object-cover aspect-[4/3]"
                 />
-                <div className="absolute bottom-4 left-4">
-                  <span className="px-3 py-1 bg-background/80 backdrop-blur-sm rounded text-xs font-medium">
-                    TAP TO ZOOM + SWIPE →
-                  </span>
-                </div>
-                <div className="absolute bottom-4 right-4">
-                  <span className="text-xs text-muted-foreground">Exterior • 4K</span>
-                </div>
               </div>
 
               {/* Gallery Thumbnails */}
               <div className="grid grid-cols-2 gap-4">
                 {vehicle.gallery.map((img, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden">
+                  <div key={index} className="overflow-hidden">
                     <img
                       src={img}
                       alt={`${vehicle.title} view ${index + 1}`}
@@ -306,7 +332,7 @@ const FleetDetail = () => {
                   <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                     Fast Booking
                   </span>
-                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-500/20 text-green-400">
+                  <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400">
                     ~2 minutes
                   </span>
                 </div>
@@ -324,7 +350,7 @@ const FleetDetail = () => {
                 {/* Booking Steps */}
                 <div className="space-y-4 mb-6">
                   {bookingSteps.map((step) => (
-                    <div key={step.step} className="p-4 bg-secondary/50 rounded-lg">
+                    <div key={step.step} className="p-4 bg-secondary/50">
                       <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-1">
                         Step {step.step}
                       </p>
@@ -369,6 +395,70 @@ const FleetDetail = () => {
         </div>
       </section>
 
+      {/* Vehicle Variants Section */}
+      <section className="py-20 bg-card">
+        <div className="container px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Choose Your <span className="text-gradient-gold">{vehicle.title}</span>
+            </h2>
+            <div className="section-divider mb-6" />
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              We offer multiple {vehicle.title.toLowerCase()} options to match your exact passenger count and requirements.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {vehicle.variants.map((variant) => (
+              <div
+                key={variant.id}
+                className="card-luxury p-6 hover:border-gold/30 transition-colors"
+              >
+                <h3 className="font-serif text-xl font-bold text-foreground mb-2">
+                  {variant.name}
+                </h3>
+                <p className="text-xs text-muted-foreground mb-4 uppercase tracking-wider">
+                  {variant.type}
+                </p>
+                <div className="flex items-center gap-2 text-gold text-sm mb-4">
+                  <Users className="w-4 h-4" />
+                  {variant.passengers} passengers
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Sweet spot: {variant.sweetSpot} guests
+                </p>
+                <Button variant="gold" size="sm" className="w-full">
+                  Get Quote
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          {/* Custom Inquiry */}
+          <div className="card-luxury p-8 text-center max-w-2xl mx-auto">
+            <MessageSquare className="w-12 h-12 text-gold mx-auto mb-4" />
+            <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
+              Need a Different Configuration?
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Looking for a specific passenger count, vehicle type, or special requirements? Contact us directly and we'll find the perfect solution for your group.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="tel:888-535-2566">
+                <Button variant="gold" size="lg">
+                  <Phone className="w-4 h-4" />
+                  Call (888) 535-2566
+                </Button>
+              </a>
+              <Button variant="outline" size="lg">
+                Request Custom Quote
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Testimonials />
       <FAQ items={faqItems} title="Booking FAQs" />
       <CTASection />
       <Footer />
