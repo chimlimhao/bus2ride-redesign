@@ -6,6 +6,7 @@ import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, Shield, MapPin, Headphones } from "lucide-react";
+import QuoteModal from "@/components/QuoteModal";
 
 const services = [
   {
@@ -219,10 +220,12 @@ const Services = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button variant="gold" size="lg">
-                    Get a Quote
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                  <QuoteModal vehicleType={service.title}>
+                    <Button variant="gold" size="lg">
+                      Get a Quote
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </QuoteModal>
                 </div>
               </div>
             ))}

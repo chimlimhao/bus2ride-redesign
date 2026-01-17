@@ -82,8 +82,8 @@ const About = () => {
 
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?q=80&w=2070"
-                alt="Luxury fleet"
+                src="https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=2070"
+                alt="Luxury Mercedes fleet"
                 className="rounded-2xl w-full object-cover aspect-[4/3]"
               />
               <div className="absolute -bottom-8 -left-8 bg-gold text-gold-foreground p-6 rounded-xl">

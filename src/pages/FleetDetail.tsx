@@ -541,64 +541,84 @@ const FleetDetail = () => {
       <CTASection />
       <Footer />
 
-      {/* Lightbox Dialog */}
+      {/* Lightbox Dialog - Fixed for smooth operation */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
-        <DialogContent className="max-w-5xl w-full h-[90vh] bg-background/95 backdrop-blur-md border-border p-0 flex flex-col">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-4 right-4 z-50 text-foreground hover:bg-secondary"
-            onClick={() => setLightboxOpen(false)}
-          >
-            <X className="w-6 h-6" />
-          </Button>
-
-          <div className="absolute top-4 left-4 z-50 text-sm text-muted-foreground">
-            {lightboxIndex + 1} / {vehicle.gallery.length}
-          </div>
-
-          <div className="flex-1 flex items-center justify-center p-8 relative">
+        <DialogContent 
+          className="max-w-5xl w-full h-[90vh] bg-background border-border p-0 flex flex-col overflow-hidden"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
+          {/* Header with close and counter */}
+          <div className="flex items-center justify-between p-4 border-b border-border bg-background">
+            <span className="text-sm text-muted-foreground font-medium">
+              {lightboxIndex + 1} / {vehicle.gallery.length}
+            </span>
             <Button
               variant="ghost"
               size="icon"
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-50 text-foreground hover:bg-secondary h-12 w-12"
-              onClick={goToPrevious}
+              className="text-foreground hover:bg-secondary"
+              onClick={() => setLightboxOpen(false)}
             >
-              <ChevronLeft className="w-8 h-8" />
-            </Button>
-
-            <img
-              src={vehicle.gallery[lightboxIndex]}
-              alt={`${vehicle.title} view ${lightboxIndex + 1}`}
-              className="max-w-full max-h-full object-contain"
-            />
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-50 text-foreground hover:bg-secondary h-12 w-12"
-              onClick={goToNext}
-            >
-              <ChevronRight className="w-8 h-8" />
+              <X className="w-5 h-5" />
             </Button>
           </div>
 
-          <div className="p-4 border-t border-border">
+          {/* Main Image Container */}
+          <div className="flex-1 flex items-center justify-center p-4 md:p-8 relative bg-background/50 min-h-0">
+            {/* Previous Button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 md:h-12 md:w-12 bg-background/80 hover:bg-background border-border"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToPrevious();
+              }}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+
+            {/* Image */}
+            <div className="w-full h-full flex items-center justify-center">
+              <img
+                src={vehicle.gallery[lightboxIndex]}
+                alt={`${vehicle.title} view ${lightboxIndex + 1}`}
+                className="max-w-full max-h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
+
+            {/* Next Button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 md:h-12 md:w-12 bg-background/80 hover:bg-background border-border"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToNext();
+              }}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          </div>
+
+          {/* Thumbnail Strip */}
+          <div className="p-3 md:p-4 border-t border-border bg-background">
             <div className="flex gap-2 justify-center overflow-x-auto">
               {vehicle.gallery.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setLightboxIndex(index)}
-                  className={`flex-shrink-0 w-16 h-16 overflow-hidden transition-all ${
+                  className={`flex-shrink-0 w-14 h-14 md:w-16 md:h-16 overflow-hidden transition-all border-2 ${
                     index === lightboxIndex
-                      ? "ring-2 ring-gold"
-                      : "opacity-50 hover:opacity-100"
+                      ? "border-gold opacity-100"
+                      : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
                   <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
                     className="w-full h-full object-cover"
+                    draggable={false}
                   />
                 </button>
               ))}
