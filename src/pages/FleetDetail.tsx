@@ -1,0 +1,379 @@
+import { useParams, Link } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import CTASection from "@/components/CTASection";
+import FAQ from "@/components/FAQ";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Phone, Clock, Users, Check } from "lucide-react";
+
+const vehicleData: Record<string, {
+  title: string;
+  seats: string;
+  sweetSpot: string;
+  description: string;
+  mainImage: string;
+  gallery: string[];
+  features: string[];
+  amenities: string[];
+}> = {
+  "party-buses": {
+    title: "Party Bus",
+    seats: "20-50",
+    sweetSpot: "25-40",
+    description: "Spacious party buses designed for lively celebrations and group outings. Features premium sound systems, LED lighting, and all the amenities you need for an unforgettable experience.",
+    mainImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800",
+    ],
+    features: [
+      "Premium Sound System",
+      "LED Lighting & Lasers",
+      "Leather Seating",
+      "Climate Control",
+      "On-board Restroom",
+      "Mini Bar Area",
+    ],
+    amenities: [
+      "Dance Pole (select buses)",
+      "Bluetooth Connectivity",
+      "USB Charging Ports",
+      "Tinted Windows",
+      "Professional Chauffeur",
+      "Ice & Cups Provided",
+    ],
+  },
+  "limousines": {
+    title: "Stretch Limousine",
+    seats: "6-18",
+    sweetSpot: "8-14",
+    description: "Classic elegance meets modern luxury. Our stretch limousines provide the perfect setting for weddings, proms, and executive travel with premium amenities and professional service.",
+    mainImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800",
+    ],
+    features: [
+      "Leather Interior",
+      "Mini Bar with Glassware",
+      "Privacy Divider",
+      "Premium Audio System",
+      "Fiber Optic Lighting",
+      "Sunroof (select models)",
+    ],
+    amenities: [
+      "Champagne Bucket",
+      "Bluetooth Audio",
+      "Phone Chargers",
+      "Bottled Water",
+      "Professional Chauffeur",
+      "Red Carpet Service",
+    ],
+  },
+  "coach-buses": {
+    title: "Coach Bus",
+    seats: "40-56",
+    sweetSpot: "45-50",
+    description: "Perfect for large groups requiring comfortable long-distance travel. Our coach buses feature panoramic windows, ample storage, and all the amenities for a pleasant journey.",
+    mainImage: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800",
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
+    ],
+    features: [
+      "Panoramic Windows",
+      "Overhead Storage",
+      "On-board Restroom",
+      "WiFi Available",
+      "Climate Control",
+      "Reclining Seats",
+    ],
+    amenities: [
+      "Power Outlets",
+      "Reading Lights",
+      "PA System",
+      "DVD Players",
+      "Professional Chauffeur",
+      "Luggage Compartment",
+    ],
+  },
+  "suv-limos": {
+    title: "SUV Limousine",
+    seats: "8-14",
+    sweetSpot: "10-12",
+    description: "The perfect blend of rugged style and luxurious comfort. Our SUV limousines offer more headroom and a commanding presence for those who want to make an impression.",
+    mainImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800",
+    ],
+    features: [
+      "Spacious Interior",
+      "Premium Sound System",
+      "Custom LED Lighting",
+      "Leather Seating",
+      "Mini Bar",
+      "Privacy Windows",
+    ],
+    amenities: [
+      "Fiber Optic Ceiling",
+      "Flat Screen TV",
+      "Bluetooth Audio",
+      "Phone Chargers",
+      "Professional Chauffeur",
+      "Ice & Cups Provided",
+    ],
+  },
+  "executive-sedans": {
+    title: "Executive Sedan",
+    seats: "3-4",
+    sweetSpot: "2-3",
+    description: "Professional, understated elegance for corporate executives and discerning travelers. Our executive sedans provide a quiet, comfortable ride with premium amenities.",
+    mainImage: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=800",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800",
+    ],
+    features: [
+      "Leather Interior",
+      "Rear Climate Control",
+      "Bluetooth Audio",
+      "Tinted Windows",
+      "Extra Legroom",
+      "Trunk Space for Luggage",
+    ],
+    amenities: [
+      "Bottled Water",
+      "Phone Chargers",
+      "WiFi Available",
+      "Newspapers/Magazines",
+      "Professional Chauffeur",
+      "Flight Tracking",
+    ],
+  },
+  "sprinter-vans": {
+    title: "Executive Sprinter Van",
+    seats: "10-16",
+    sweetSpot: "12-14",
+    description: "Versatile luxury vans perfect for medium-sized groups. Ideal for corporate travel, wine tours, and group outings with ample space and premium amenities.",
+    mainImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
+    gallery: [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800",
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
+    ],
+    features: [
+      "Luggage Area",
+      "Rear AC/Heating",
+      "Custom Interior Lighting",
+      "TV & DVD Capabilities",
+      "Luxury Leather Interior",
+      "High Roof for Standing",
+    ],
+    amenities: [
+      "WiFi Available",
+      "Power Outlets",
+      "Cooler Space",
+      "Bluetooth Audio",
+      "Professional Chauffeur",
+      "Tinted Windows",
+    ],
+  },
+};
+
+const bookingSteps = [
+  {
+    step: 1,
+    title: "Pick date + pickup window",
+    description: "We soft-hold the vehicle slot.",
+  },
+  {
+    step: 2,
+    title: "Share headcount + stops",
+    description: "We map buffers so you stay on time.",
+  },
+  {
+    step: 3,
+    title: "Approve quote + pay",
+    description: "You get itinerary + arrival notes.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "How far in advance should I book?",
+    answer: "We recommend booking at least 2-4 weeks in advance for standard events, and 2-3 months for peak season events like proms and weddings.",
+  },
+  {
+    question: "What is included in the rental?",
+    answer: "All rentals include a professional chauffeur, fuel, standard gratuity, and basic amenities. Ice, cups, and soft drinks are typically included.",
+  },
+  {
+    question: "Can I bring alcohol?",
+    answer: "Adults 21+ may bring their own alcohol on party buses and limousines. We provide ice, cups, and glassware. Alcohol is not permitted for minors.",
+  },
+  {
+    question: "What is your cancellation policy?",
+    answer: "Cancellations made 7+ days before the event receive a full refund. Cancellations within 7 days may incur charges. See your contract for details.",
+  },
+];
+
+const FleetDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const vehicle = id ? vehicleData[id] : null;
+
+  if (!vehicle) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container px-4 py-32 text-center">
+          <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Vehicle Not Found</h1>
+          <p className="text-muted-foreground mb-8">The vehicle you're looking for doesn't exist.</p>
+          <Button variant="gold" asChild>
+            <Link to="/fleet">View All Vehicles</Link>
+          </Button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+
+      {/* Vehicle Detail Section */}
+      <section className="pt-32 pb-20">
+        <div className="container px-4">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left Column - Images */}
+            <div>
+              {/* Badges */}
+              <div className="flex gap-3 mb-4">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-green-500/20 text-green-400">
+                  Featured {vehicle.title} • 24/7 Booking
+                </span>
+              </div>
+              <div className="mb-4">
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+                  Seats {vehicle.seats} • Sweet Spot {vehicle.sweetSpot}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+                {vehicle.seats.split("-")[0]} Passenger {vehicle.title}
+              </h1>
+              <p className="text-muted-foreground mb-8">
+                {vehicle.description}
+              </p>
+
+              {/* Main Image */}
+              <div className="relative rounded-lg overflow-hidden mb-4">
+                <img
+                  src={vehicle.mainImage}
+                  alt={vehicle.title}
+                  className="w-full h-auto object-cover aspect-[4/3]"
+                />
+                <div className="absolute bottom-4 left-4">
+                  <span className="px-3 py-1 bg-background/80 backdrop-blur-sm rounded text-xs font-medium">
+                    TAP TO ZOOM + SWIPE →
+                  </span>
+                </div>
+                <div className="absolute bottom-4 right-4">
+                  <span className="text-xs text-muted-foreground">Exterior • 4K</span>
+                </div>
+              </div>
+
+              {/* Gallery Thumbnails */}
+              <div className="grid grid-cols-2 gap-4">
+                {vehicle.gallery.map((img, index) => (
+                  <div key={index} className="rounded-lg overflow-hidden">
+                    <img
+                      src={img}
+                      alt={`${vehicle.title} view ${index + 1}`}
+                      className="w-full h-32 object-cover hover:scale-105 transition-transform cursor-pointer"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Column - Booking */}
+            <div>
+              {/* Fast Booking Card */}
+              <div className="card-luxury p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                    Fast Booking
+                  </span>
+                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-500/20 text-green-400">
+                    ~2 minutes
+                  </span>
+                </div>
+                
+                <div className="mb-6">
+                  <p className="text-sm text-muted-foreground mb-2">Call us (instant help)</p>
+                  <a href="tel:888-535-2566" className="text-2xl font-bold text-gold hover:underline flex items-center gap-2">
+                    (888) 535-2566 <ArrowRight className="w-5 h-5" />
+                  </a>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Tell us date + pickup window + stops. We handle the details.
+                  </p>
+                </div>
+
+                {/* Booking Steps */}
+                <div className="space-y-4 mb-6">
+                  {bookingSteps.map((step) => (
+                    <div key={step.step} className="p-4 bg-secondary/50 rounded-lg">
+                      <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-1">
+                        Step {step.step}
+                      </p>
+                      <p className="font-semibold text-foreground">{step.title}</p>
+                      <p className="text-sm text-muted-foreground">{step.description}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <Button variant="gold" size="lg" className="w-full mb-3">
+                  Start My Quote
+                </Button>
+                <Button variant="outline" size="lg" className="w-full">
+                  Booking FAQs
+                </Button>
+              </div>
+
+              {/* Features & Amenities */}
+              <div className="card-luxury p-6">
+                <h3 className="font-serif text-xl font-bold text-foreground mb-4">Features</h3>
+                <ul className="grid grid-cols-2 gap-3 mb-6">
+                  {vehicle.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-gold" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <h3 className="font-serif text-xl font-bold text-foreground mb-4">Amenities</h3>
+                <ul className="grid grid-cols-2 gap-3">
+                  {vehicle.amenities.map((amenity, index) => (
+                    <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-gold" />
+                      {amenity}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <FAQ items={faqItems} title="Booking FAQs" />
+      <CTASection />
+      <Footer />
+    </div>
+  );
+};
+
+export default FleetDetail;
