@@ -160,7 +160,7 @@ const Services = () => {
 
       {/* Features Bar */}
       <section className="py-16 bg-card border-y border-border">
-        <div className="container px-4">
+        <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-4">
@@ -179,7 +179,7 @@ const Services = () => {
 
       {/* Services List - Alternating Layout */}
       <section className="py-24">
-        <div className="container px-4">
+        <div className="container">
           <div className="space-y-24 lg:space-y-32">
             {services.map((service, index) => (
               <div

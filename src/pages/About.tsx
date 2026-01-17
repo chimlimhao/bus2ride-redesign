@@ -58,7 +58,7 @@ const About = () => {
 
       {/* Our Story */}
       <section className="py-24 lg:py-32">
-        <div className="container px-4">
+        <div className="container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <span className="text-gold font-semibold tracking-wider uppercase text-sm">
@@ -97,7 +97,7 @@ const About = () => {
 
       {/* Stats */}
       <section className="py-16 bg-card">
-        <div className="container px-4">
+        <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
@@ -113,7 +113,7 @@ const About = () => {
 
       {/* Our Values */}
       <section className="py-24 lg:py-32">
-        <div className="container px-4">
+        <div className="container">
           <div className="text-center mb-16">
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
               Our Values
@@ -144,7 +144,7 @@ const About = () => {
 
       {/* Timeline */}
       <section className="py-24 lg:py-32 bg-card">
-        <div className="container px-4">
+        <div className="container">
           <div className="text-center mb-16">
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
               Our Journey

@@ -114,7 +114,7 @@ const Pricing = () => {
 
       {/* Pricing Cards */}
       <section className="py-24 lg:py-32">
-        <div className="container px-4">
+        <div className="container">
           <div className="text-center mb-16">
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
               Our Rates
@@ -177,7 +177,7 @@ const Pricing = () => {
 
       {/* Custom Quote CTA */}
       <section className="py-16 bg-card">
-        <div className="container px-4">
+        <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-4">
               Need a Custom Quote?

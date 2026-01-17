@@ -50,7 +50,7 @@ const fleetCategories = [
 const FleetCards = () => {
   return (
     <section id="fleet" className="py-24 lg:py-32">
-      <div className="container px-4">
+      <div className="container">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">

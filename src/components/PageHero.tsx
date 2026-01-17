@@ -23,7 +23,7 @@ const PageHero = ({ title, highlightedWord, subtitle, backgroundImage, children 
         </div>
       )}
       
-      <div className="container relative z-10 px-4">
+      <div className="container relative z-10">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
             {title} <span className="text-gradient-gold">{highlightedWord}</span>

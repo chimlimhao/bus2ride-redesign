@@ -64,7 +64,7 @@ const thirdColumn = testimonials.slice(6, 9);
 const Testimonials = () => {
   return (
     <section className="py-24 lg:py-32 bg-card overflow-hidden">
-      <div className="container px-4">
+      <div className="container">
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="text-gold font-semibold tracking-wider uppercase text-sm">

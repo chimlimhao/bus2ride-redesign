@@ -142,7 +142,7 @@ const Events = () => {
 
       {/* Category Filters */}
       <section className="py-8 border-b border-border">
-        <div className="container px-4">
+        <div className="container">
           <div className="flex flex-wrap gap-3 justify-center">
             {eventCategories.map((cat) => (
               <button
@@ -162,7 +162,7 @@ const Events = () => {
 
       {/* Events Grid */}
       <section className="py-20">
-        <div className="container px-4">
+        <div className="container">
           <p className="text-muted-foreground mb-8">Showing all {events.length} event guides</p>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
