@@ -14,10 +14,10 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         {/* Fallback image shown until video loads */}
         <img
-          src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2048"
-          alt="Luxury limousine"
+          src="https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=2048"
+          alt="Luxury Mercedes sedan"
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-0" : "opacity-40"
+            videoLoaded ? "opacity-0" : "opacity-60"
           }`}
         />
         
@@ -29,7 +29,7 @@ const Hero = () => {
           playsInline
           onCanPlay={() => setVideoLoaded(true)}
           className={`w-full h-full object-cover transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-50" : "opacity-0"
+            videoLoaded ? "opacity-70" : "opacity-0"
           }`}
         >
           {/* Using a reliable Coverr video of city driving at night */}
@@ -39,9 +39,9 @@ const Hero = () => {
           />
         </video>
         
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/60" />
+        {/* Gradient overlays - lighter for more visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-background/40" />
       </div>
 
       {/* Content */}
