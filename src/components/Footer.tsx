@@ -44,18 +44,22 @@ const Footer = () => {
               Our Fleet
             </h4>
             <ul className="space-y-3">
-              {["Party Buses", "Limousines", "Coach Buses", "Sprinter Vans", "Luxury Sedans"].map(
-                (item) => (
-                  <li key={item}>
-                    <Link
-                      to="/services"
-                      className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                )
-              )}
+              {[
+                { label: "Party Buses", slug: "party-bus" },
+                { label: "Limousines", slug: "limousine" },
+                { label: "Coach Buses", slug: "coach-bus" },
+                { label: "Sprinter Vans", slug: "sprinter-van" },
+                { label: "Luxury Sedans", slug: "luxury-sedan" },
+              ].map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    to={`/fleet/${item.slug}`}
+                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -66,18 +70,18 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3">
               {[
-                "Weddings",
-                "Prom & School",
-                "Corporate",
-                "Bachelor/Bachelorette",
-                "Airport Transfers",
+                { label: "Weddings", slug: "weddings" },
+                { label: "Prom & School", slug: "prom" },
+                { label: "Corporate", slug: "corporate" },
+                { label: "Bachelor/Bachelorette", slug: "bachelor-bachelorette" },
+                { label: "Concerts & Sporting", slug: "concerts-sporting" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.slug}>
                   <Link
-                    to="/events"
+                    to={`/events/${item.slug}`}
                     className="text-sm text-muted-foreground hover:text-gold transition-colors"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -90,16 +94,38 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-3">
-              {["About Us", "Pricing", "Locations", "Blog", "Contact"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/about"
+                  className="text-sm text-muted-foreground hover:text-gold transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pricing"
+                  className="text-sm text-muted-foreground hover:text-gold transition-colors"
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services"
+                  className="text-sm text-muted-foreground hover:text-gold transition-colors"
+                >
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-sm text-muted-foreground hover:text-gold transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
