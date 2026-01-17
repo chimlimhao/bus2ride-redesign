@@ -20,42 +20,43 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+          {/* Logo - Left */}
           <Link to="/" className="flex items-center gap-2">
             <span className="font-serif text-2xl font-bold text-foreground">
               Bus<span className="text-gold">2</span>Ride
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === link.href
-                    ? "text-gold"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {/* Desktop Navigation + CTA - Right */}
+          <div className="hidden lg:flex items-center gap-8">
+            <nav className="flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    location.pathname === link.href
+                      ? "text-gold"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a
-              href="tel:888-535-2566"
-              className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors border border-border rounded-md px-4 py-2"
-            >
-              <Phone className="w-4 h-4" />
-              888-535-2566
-            </a>
-            <Button variant="gold" size="default">
-              Get a Quote
-            </Button>
+            <div className="flex items-center gap-4">
+              <a
+                href="tel:888-535-2566"
+                className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors border border-border px-4 py-2"
+              >
+                <Phone className="w-4 h-4" />
+                888-535-2566
+              </a>
+              <Button variant="gold" size="default">
+                Get a Quote
+              </Button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}

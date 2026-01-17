@@ -45,11 +45,11 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3">
               {[
-                { label: "Party Buses", slug: "party-bus" },
-                { label: "Limousines", slug: "limousine" },
-                { label: "Coach Buses", slug: "coach-bus" },
-                { label: "Sprinter Vans", slug: "sprinter-van" },
-                { label: "Luxury Sedans", slug: "luxury-sedan" },
+                { label: "Party Buses", slug: "party-buses" },
+                { label: "Limousines", slug: "limousines" },
+                { label: "Coach Buses", slug: "coach-buses" },
+                { label: "Sprinter Vans", slug: "sprinter-vans" },
+                { label: "Executive Sedans", slug: "executive-sedans" },
               ].map((item) => (
                 <li key={item.slug}>
                   <Link
@@ -74,7 +74,7 @@ const Footer = () => {
                 { label: "Prom & School", slug: "prom" },
                 { label: "Corporate", slug: "corporate" },
                 { label: "Bachelor/Bachelorette", slug: "bachelor-bachelorette" },
-                { label: "Concerts & Sporting", slug: "concerts-sporting" },
+                { label: "Concerts & Festivals", slug: "concerts" },
               ].map((item) => (
                 <li key={item.slug}>
                   <Link
