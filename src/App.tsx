@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
 import FloatingCTA from "./components/FloatingCTA";
+import ChatWidget from "./components/ChatWidget";
 import AnimatedRoutes from "./components/AnimatedRoutes";
 
 const queryClient = new QueryClient();
@@ -15,6 +16,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <FloatingCTA />
+        <ChatWidget />
         <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
