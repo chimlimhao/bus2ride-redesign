@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import QuoteModal from "@/components/QuoteModal";
+import AnimatedSection from "@/components/AnimatedSection";
 
 const Hero = () => {
   return (
@@ -20,66 +22,78 @@ const Hero = () => {
       <div className="container relative z-10 px-4 py-20 lg:py-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 badge-gold mb-8 animate-fade-up">
-            <Star className="w-4 h-4" />
-            Premium Fleet Rentals
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="inline-flex items-center gap-2 badge-gold mb-8">
+              <Star className="w-4 h-4" />
+              Premium Fleet Rentals
+            </div>
+          </AnimatedSection>
 
           {/* Heading */}
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
-            Group Transport
-            <span className="block text-gradient-gold">Made Easy</span>
-          </h1>
+          <AnimatedSection delay={0.1}>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl font-bold text-foreground mb-6">
+              Group Transport
+              <span className="block text-gradient-gold">Made Easy</span>
+            </h1>
+          </AnimatedSection>
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            Instant quotes, transparent pricing, and meticulously maintained vehicles for weddings, proms, corporate events, and more.
-          </p>
+          <AnimatedSection delay={0.2}>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+              Instant quotes, transparent pricing, and meticulously maintained vehicles for weddings, proms, corporate events, and more.
+            </p>
+          </AnimatedSection>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Button variant="gold" size="xl" className="w-full sm:w-auto">
-              Get Instant Quote
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-            <Button variant="outline" size="xl" className="w-full sm:w-auto" asChild>
-              <Link to="/services">View Our Fleet</Link>
-            </Button>
-          </div>
+          <AnimatedSection delay={0.3}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <QuoteModal>
+                <Button variant="gold" size="xl" className="w-full sm:w-auto">
+                  Get Instant Quote
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </QuoteModal>
+              <Button variant="outline" size="xl" className="w-full sm:w-auto" asChild>
+                <Link to="/fleet">View Our Fleet</Link>
+              </Button>
+            </div>
+          </AnimatedSection>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mt-16 animate-fade-up" style={{ animationDelay: "0.4s" }}>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gold">98%</div>
-              <div className="text-sm text-muted-foreground">On-Time Rate</div>
-            </div>
-            <div className="w-px h-10 bg-border hidden sm:block" />
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gold">15K+</div>
-              <div className="text-sm text-muted-foreground">Happy Customers</div>
-            </div>
-            <div className="w-px h-10 bg-border hidden sm:block" />
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gold">150+</div>
-              <div className="text-sm text-muted-foreground">Premium Vehicles</div>
-            </div>
-            <div className="w-px h-10 bg-border hidden sm:block" />
-            <div className="text-center flex items-center gap-1">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                ))}
+          <AnimatedSection delay={0.4}>
+            <div className="flex flex-wrap items-center justify-center gap-8 mt-16">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold">98%</div>
+                <div className="text-sm text-muted-foreground">On-Time Rate</div>
               </div>
-              <div className="text-sm text-muted-foreground ml-2">4.9 Rating</div>
+              <div className="w-px h-10 bg-border hidden sm:block" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold">15K+</div>
+                <div className="text-sm text-muted-foreground">Happy Customers</div>
+              </div>
+              <div className="w-px h-10 bg-border hidden sm:block" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold">150+</div>
+                <div className="text-sm text-muted-foreground">Premium Vehicles</div>
+              </div>
+              <div className="w-px h-10 bg-border hidden sm:block" />
+              <div className="text-center flex items-center gap-1">
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="w-4 h-4 fill-gold text-gold" />
+                  ))}
+                </div>
+                <div className="text-sm text-muted-foreground ml-2">4.9 Rating</div>
+              </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
       </div>
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-2 border-gold/50 flex items-start justify-center p-2">
-          <div className="w-1 h-2 rounded-full bg-gold animate-bounce" />
+        <div className="w-6 h-10 border-2 border-gold/50 flex items-start justify-center p-2">
+          <div className="w-1 h-2 bg-gold animate-bounce" />
         </div>
       </div>
     </section>
