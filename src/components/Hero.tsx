@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -5,31 +6,42 @@ import QuoteModal from "@/components/QuoteModal";
 import AnimatedSection from "@/components/AnimatedSection";
 
 const Hero = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       {/* Video Background with Overlay */}
       <div className="absolute inset-0 z-0">
+        {/* Fallback image shown until video loads */}
+        <img
+          src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2048"
+          alt="Luxury limousine"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-0" : "opacity-40"
+          }`}
+        />
+        
+        {/* Video background */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-40"
-          poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
+          onCanPlay={() => setVideoLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-50" : "opacity-0"
+          }`}
         >
+          {/* Using a reliable Coverr video of city driving at night */}
           <source 
-            src="https://videos.pexels.com/video-files/2711809/2711809-uhd_2560_1440_30fps.mp4" 
+            src="https://cdn.coverr.co/videos/coverr-driving-through-the-city-at-night-5639/1080p.mp4" 
             type="video/mp4" 
           />
-          {/* Fallback image if video doesn't load */}
-          <img
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
-            alt="Luxury vehicle"
-            className="w-full h-full object-cover"
-          />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background/50" />
+        
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/60" />
       </div>
 
       {/* Content */}
