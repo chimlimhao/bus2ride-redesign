@@ -18,6 +18,7 @@ import limousine from "@/assets/fleet/limousine.jpg";
 import coachBus from "@/assets/fleet/coach-bus.jpg";
 import suvLimo from "@/assets/fleet/suv-limo.jpg";
 import sedan from "@/assets/fleet/sedan.jpg";
+import sprinterVan from "@/assets/fleet/sprinter-van.jpg";
 
 interface VehicleVariant {
   id: string;
@@ -212,9 +213,9 @@ const vehicleData: Record<string, {
     title: "Executive Sprinter Van",
     categoryLabel: "FEATURED SPRINTER VAN • 24/7 BOOKING",
     description: "Versatile luxury vans perfect for medium-sized groups. Ideal for corporate travel, wine tours, and group outings with ample space and premium amenities.",
-    mainImage: partyBusHero,
+    mainImage: sprinterVan,
     gallery: [
-      partyBusHero,
+      sprinterVan,
       partyBusInterior,
       coachBus,
       limousine,
@@ -236,10 +237,10 @@ const vehicleData: Record<string, {
       "Tinted Windows",
     ],
     variants: [
-      { id: "sprinter-10", name: "10 Passenger Sprinter", passengers: "8-10", sweetSpot: "10", type: "Mercedes Sprinter", image: partyBusHero },
-      { id: "sprinter-12", name: "12 Passenger Sprinter", passengers: "10-12", sweetSpot: "12", type: "Mercedes Sprinter", image: partyBusHero },
-      { id: "sprinter-14", name: "14 Passenger Sprinter", passengers: "12-14", sweetSpot: "14", type: "Mercedes Sprinter", image: partyBusHero },
-      { id: "sprinter-16", name: "16 Passenger Sprinter", passengers: "14-16", sweetSpot: "16", type: "Ford Transit", image: partyBusHero },
+      { id: "sprinter-10", name: "10 Passenger Sprinter", passengers: "8-10", sweetSpot: "10", type: "Mercedes Sprinter", image: sprinterVan },
+      { id: "sprinter-12", name: "12 Passenger Sprinter", passengers: "10-12", sweetSpot: "12", type: "Mercedes Sprinter", image: sprinterVan },
+      { id: "sprinter-14", name: "14 Passenger Sprinter", passengers: "12-14", sweetSpot: "14", type: "Mercedes Sprinter", image: sprinterVan },
+      { id: "sprinter-16", name: "16 Passenger Sprinter", passengers: "14-16", sweetSpot: "16", type: "Ford Transit", image: sprinterVan },
     ],
   },
 };

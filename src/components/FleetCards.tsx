@@ -8,6 +8,7 @@ import limousine from "@/assets/fleet/limousine.jpg";
 import coachBus from "@/assets/fleet/coach-bus.jpg";
 import suvLimo from "@/assets/fleet/suv-limo.jpg";
 import sedan from "@/assets/fleet/sedan.jpg";
+import sprinterVan from "@/assets/fleet/sprinter-van.jpg";
 
 const fleetCategories = [
   {
@@ -49,7 +50,7 @@ const fleetCategories = [
     id: "sprinter-vans",
     title: "Sprinter Vans",
     passengers: "10-16 passengers",
-    image: partyBusHero,
+    image: sprinterVan,
     description: "Versatile luxury vans for medium-sized groups.",
   },
 ];
