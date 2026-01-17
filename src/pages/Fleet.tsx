@@ -8,12 +8,19 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Import vehicle images
+import partyBusHero from "@/assets/fleet/party-bus-hero.jpg";
+import limousine from "@/assets/fleet/limousine.jpg";
+import coachBus from "@/assets/fleet/coach-bus.jpg";
+import suvLimo from "@/assets/fleet/suv-limo.jpg";
+import sedan from "@/assets/fleet/sedan.jpg";
+
 const vehicles = [
   {
     id: "party-buses",
     title: "Party Buses",
     subtitle: "Accommodates 20-50 passengers",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
+    image: partyBusHero,
     features: [
       "Premium Sound System",
       "LED Lighting & Lasers",
@@ -27,7 +34,7 @@ const vehicles = [
     id: "limousines",
     title: "Stretch Limousines",
     subtitle: "Accommodates 6-18 passengers",
-    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800",
+    image: limousine,
     features: [
       "Leather Interior",
       "Mini Bar",
@@ -41,7 +48,7 @@ const vehicles = [
     id: "coach-buses",
     title: "Coach Buses",
     subtitle: "Accommodates 40-56 passengers",
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800",
+    image: coachBus,
     features: [
       "Panoramic Windows",
       "Overhead Storage",
@@ -55,7 +62,7 @@ const vehicles = [
     id: "suv-limos",
     title: "SUV Limousines",
     subtitle: "Accommodates 8-14 passengers",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800",
+    image: suvLimo,
     features: [
       "Spacious Interior",
       "Premium Sound System",
@@ -69,7 +76,7 @@ const vehicles = [
     id: "executive-sedans",
     title: "Executive Sedans",
     subtitle: "Accommodates 3-4 passengers",
-    image: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=800",
+    image: sedan,
     features: [
       "Leather Interior",
       "Seats 3-4 Comfortably",
@@ -83,7 +90,7 @@ const vehicles = [
     id: "sprinter-vans",
     title: "Executive Sprinter Vans",
     subtitle: "Accommodates 10-16 passengers",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800",
+    image: partyBusHero,
     features: [
       "Luggage Area",
       "Rear AC/Heating",

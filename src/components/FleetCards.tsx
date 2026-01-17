@@ -2,47 +2,54 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Import vehicle images
+import partyBusHero from "@/assets/fleet/party-bus-hero.jpg";
+import limousine from "@/assets/fleet/limousine.jpg";
+import coachBus from "@/assets/fleet/coach-bus.jpg";
+import suvLimo from "@/assets/fleet/suv-limo.jpg";
+import sedan from "@/assets/fleet/sedan.jpg";
+
 const fleetCategories = [
   {
     id: "party-buses",
     title: "Party Buses",
     passengers: "20-50 passengers",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800",
+    image: partyBusHero,
     description: "Ultimate party experience on wheels with premium sound and lighting.",
   },
   {
     id: "limousines",
     title: "Stretch Limousines",
     passengers: "6-18 passengers",
-    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800",
+    image: limousine,
     description: "Classic elegance for special occasions and executive travel.",
   },
   {
     id: "coach-buses",
     title: "Coach Buses",
     passengers: "40-56 passengers",
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800",
+    image: coachBus,
     description: "Comfortable long-distance travel for large groups.",
   },
   {
     id: "suv-limos",
     title: "SUV Limousines",
     passengers: "8-14 passengers",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800",
+    image: suvLimo,
     description: "Spacious luxury with the style of an SUV.",
   },
   {
     id: "executive-sedans",
     title: "Executive Sedans",
     passengers: "3-4 passengers",
-    image: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=800",
+    image: sedan,
     description: "Professional transportation for business executives.",
   },
   {
     id: "sprinter-vans",
     title: "Sprinter Vans",
     passengers: "10-16 passengers",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800",
+    image: partyBusHero,
     description: "Versatile luxury vans for medium-sized groups.",
   },
 ];

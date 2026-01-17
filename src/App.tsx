@@ -13,6 +13,7 @@ import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import FloatingCTA from "./components/FloatingCTA";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <FloatingCTA />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/fleet" element={<Fleet />} />
