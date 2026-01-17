@@ -1,79 +1,97 @@
-import { Star, Quote } from "lucide-react";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 
 const testimonials = [
   {
+    text: "Bus2Ride made our wedding day absolutely perfect. The limousine was immaculate, and our chauffeur was professional and punctual. Highly recommend!",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
     name: "Jennifer Martinez",
     role: "Wedding Client",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200",
-    quote: "Bus2Ride made our wedding day absolutely perfect. The limousine was immaculate, and our chauffeur was professional and punctual. Highly recommend!",
-    rating: 5,
   },
   {
+    text: "We've used Bus2Ride for multiple corporate events. Their coach buses are always clean, drivers are professional, and they're incredibly reliable.",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
     name: "Michael Chen",
     role: "Corporate Event Planner",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-    quote: "We've used Bus2Ride for multiple corporate events. Their coach buses are always clean, drivers are professional, and they're incredibly reliable.",
-    rating: 5,
   },
   {
+    text: "As a parent, safety was my top priority. Bus2Ride exceeded all expectations. The kids had a blast and I had complete peace of mind.",
+    image: "https://randomuser.me/api/portraits/women/3.jpg",
     name: "Sarah Johnson",
     role: "Prom Parent",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200",
-    quote: "As a parent, safety was my top priority. Bus2Ride exceeded all expectations. The kids had a blast and I had complete peace of mind.",
-    rating: 5,
+  },
+  {
+    text: "The party bus was a hit at my bachelor party! Great sound system, comfortable seating, and the driver was super accommodating.",
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+    name: "David Thompson",
+    role: "Bachelor Party",
+  },
+  {
+    text: "Professional service from start to finish. The booking process was seamless and the vehicle exceeded our expectations.",
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+    name: "Amanda Roberts",
+    role: "Corporate Client",
+  },
+  {
+    text: "We used Bus2Ride for our company retreat and it was fantastic. The coach was spacious and comfortable for the long drive.",
+    image: "https://randomuser.me/api/portraits/women/6.jpg",
+    name: "Lisa Williams",
+    role: "HR Director",
+  },
+  {
+    text: "Outstanding experience for our wine tour! The chauffeur was knowledgeable and made the trip even more memorable.",
+    image: "https://randomuser.me/api/portraits/men/7.jpg",
+    name: "Robert Garcia",
+    role: "Wine Tour Guest",
+  },
+  {
+    text: "Used their airport transfer service and it was impeccable. On-time pickup, clean vehicle, and courteous driver.",
+    image: "https://randomuser.me/api/portraits/women/8.jpg",
+    name: "Emily Davis",
+    role: "Business Traveler",
+  },
+  {
+    text: "Bus2Ride made our quinceañera extra special. The limo was beautiful and the service was top-notch!",
+    image: "https://randomuser.me/api/portraits/women/9.jpg",
+    name: "Maria Gonzalez",
+    role: "Quinceañera Client",
   },
 ];
 
+const firstColumn = testimonials.slice(0, 3);
+const secondColumn = testimonials.slice(3, 6);
+const thirdColumn = testimonials.slice(6, 9);
+
 const Testimonials = () => {
   return (
-    <section className="py-24 lg:py-32 bg-card">
+    <section className="py-24 lg:py-32 bg-card overflow-hidden">
       <div className="container px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <span className="text-gold font-semibold tracking-wider uppercase text-sm">
+            Testimonials
+          </span>
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-4">
             What Our <span className="text-gradient-gold">Clients Say</span>
           </h2>
           <div className="section-divider mb-6" />
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied customers have to say about their experience.
+            See what our customers have to say about their experience with Bus2Ride.
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="card-luxury p-8 relative"
-            >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-gold/20" />
-              
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                ))}
-              </div>
-
-              {/* Quote */}
-              <p className="text-muted-foreground mb-6 relative z-10">
-                "{testimonial.quote}"
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <div className="font-semibold text-foreground">{testimonial.name}</div>
-                  <div className="text-sm text-gold">{testimonial.role}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Testimonials Columns */}
+        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[600px]">
+          <TestimonialsColumn testimonials={firstColumn} duration={15} />
+          <TestimonialsColumn
+            testimonials={secondColumn}
+            className="hidden md:block"
+            duration={19}
+          />
+          <TestimonialsColumn
+            testimonials={thirdColumn}
+            className="hidden lg:block"
+            duration={17}
+          />
         </div>
       </div>
     </section>
