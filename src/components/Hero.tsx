@@ -7,14 +7,28 @@ import AnimatedSection from "@/components/AnimatedSection";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Video Background with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
-          alt="Luxury vehicle interior"
-          className="w-full h-full object-cover opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-40"
+          poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
+        >
+          <source 
+            src="https://videos.pexels.com/video-files/2711809/2711809-uhd_2560_1440_30fps.mp4" 
+            type="video/mp4" 
+          />
+          {/* Fallback image if video doesn't load */}
+          <img
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2048"
+            alt="Luxury vehicle"
+            className="w-full h-full object-cover"
+          />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background/50" />
       </div>
 
