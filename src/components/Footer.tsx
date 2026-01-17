@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
@@ -7,11 +8,11 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
-            <a href="#" className="inline-block mb-6">
+            <Link to="/" className="inline-block mb-6">
               <span className="font-serif text-2xl font-bold text-foreground">
-                Bus<span className="text-primary">2</span>Ride
+                Bus<span className="text-gold">2</span>Ride
               </span>
-            </a>
+            </Link>
             <p className="text-muted-foreground text-sm mb-6">
               Premium group transportation for weddings, corporate events, parties, and more. Trusted by thousands.
             </p>
@@ -20,18 +21,18 @@ const Footer = () => {
                 href="tel:888-535-2566"
                 className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 text-gold" />
                 888-535-2566
               </a>
               <a
                 href="mailto:info@bus2ride.com"
                 className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 text-gold" />
                 info@bus2ride.com
               </a>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4 text-gold" />
                 Nationwide Service
               </div>
             </div>
@@ -46,12 +47,12 @@ const Footer = () => {
               {["Party Buses", "Limousines", "Coach Buses", "Sprinter Vans", "Luxury Sedans"].map(
                 (item) => (
                   <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    <Link
+                      to="/services"
+                      className="text-sm text-muted-foreground hover:text-gold transition-colors"
                     >
                       {item}
-                    </a>
+                    </Link>
                   </li>
                 )
               )}
@@ -72,12 +73,12 @@ const Footer = () => {
                 "Airport Transfers",
               ].map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  <Link
+                    to="/events"
+                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -93,7 +94,7 @@ const Footer = () => {
                 <li key={item}>
                   <a
                     href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
                   >
                     {item}
                   </a>

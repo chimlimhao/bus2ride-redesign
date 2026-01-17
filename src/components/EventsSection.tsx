@@ -1,89 +1,113 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, GraduationCap, Briefcase, PartyPopper, Plane, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const events = [
   {
-    icon: Heart,
     title: "Weddings",
-    description: "Make your special day unforgettable with elegant transportation for the wedding party and guests.",
+    subtitle: "Make your special day unforgettable",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800",
+    features: [
+      "Bride & Groom Transportation",
+      "Wedding Party Shuttles",
+      "Guest Transportation",
+      "Red Carpet Service",
+    ],
   },
   {
-    icon: GraduationCap,
-    title: "Prom & School Events",
-    description: "Safe, stylish rides for students to celebrate their milestone moments.",
-  },
-  {
-    icon: Briefcase,
     title: "Corporate Events",
-    description: "Professional shuttle services for conferences, team outings, and executive travel.",
+    subtitle: "Professional transportation solutions",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800",
+    features: [
+      "Executive Airport Transfers",
+      "Conference Shuttles",
+      "Team Building Outings",
+      "Client Transportation",
+    ],
   },
   {
-    icon: PartyPopper,
     title: "Bachelor & Bachelorette",
-    description: "Party buses equipped for the ultimate celebration with your closest friends.",
-  },
-  {
-    icon: Plane,
-    title: "Airport Transfers",
-    description: "Reliable pickup and drop-off for groups traveling together.",
-  },
-  {
-    icon: Users,
-    title: "Group Outings",
-    description: "Wine tours, sporting events, concerts—travel together in comfort.",
+    subtitle: "Party in style with your crew",
+    image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800",
+    features: [
+      "Party Bus Options",
+      "Premium Sound Systems",
+      "LED Lighting",
+      "Multiple Stops",
+    ],
   },
 ];
 
 const EventsSection = () => {
   return (
-    <section id="events" className="py-20 lg:py-32">
+    <section id="events" className="py-24 lg:py-32 bg-card">
       <div className="container px-4">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">
-            Events We Serve
-          </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-4">
-            Perfect for Any Occasion
+        <div className="text-center mb-20">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Events We <span className="text-gradient-gold">Serve</span>
           </h2>
-          <div className="section-divider" />
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-6">
+          <div className="section-divider mb-6" />
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             From intimate gatherings to large corporate events, we provide premium transportation tailored to your needs.
           </p>
         </div>
 
-        {/* Events Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Events List - Alternating Layout */}
+        <div className="space-y-24 lg:space-y-32">
           {events.map((event, index) => (
             <div
-              key={index}
-              className="card-luxury p-6 group hover:border-primary/50 transition-all duration-300"
+              key={event.title}
+              className={`flex flex-col ${
+                index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+              } items-center gap-12 lg:gap-20`}
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <event.icon className="w-6 h-6 text-primary" />
+              {/* Image */}
+              <div className="w-full lg:w-1/2">
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-auto rounded-lg object-cover aspect-[4/3]"
+                />
               </div>
-              <h3 className="font-serif text-xl font-bold text-foreground mb-2">
-                {event.title}
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                {event.description}
-              </p>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-              >
-                Learn More
-                <ArrowRight className="w-4 h-4" />
-              </a>
+
+              {/* Content */}
+              <div className="w-full lg:w-1/2 space-y-6">
+                <h3 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+                  {event.title}
+                </h3>
+                <p className="text-gold text-lg font-medium">
+                  {event.subtitle}
+                </p>
+                <ul className="space-y-3">
+                  {event.features.map((feature, featureIndex) => (
+                    <li
+                      key={featureIndex}
+                      className="flex items-center gap-3 text-muted-foreground"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant="gold" size="lg" asChild>
+                  <Link to="/events">
+                    Plan This Event
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
-          <Button variant="hero" size="lg">
-            Plan Your Event
-            <ArrowRight className="w-5 h-5" />
+        {/* View All CTA */}
+        <div className="text-center mt-20">
+          <Button variant="outline" size="lg" asChild>
+            <Link to="/events">
+              View All Events
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </Button>
         </div>
       </div>
