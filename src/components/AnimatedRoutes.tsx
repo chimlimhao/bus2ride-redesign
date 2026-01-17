@@ -11,13 +11,16 @@ import Contact from "@/pages/Contact";
 import About from "@/pages/About";
 import NotFound from "@/pages/NotFound";
 import PageTransition from "./PageTransition";
+import ScrollToTop from "./ScrollToTop";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+    <>
+      <ScrollToTop />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
         <Route path="/fleet" element={<PageTransition><Fleet /></PageTransition>} />
         <Route path="/fleet/:id" element={<PageTransition><FleetDetail /></PageTransition>} />
@@ -28,8 +31,9 @@ const AnimatedRoutes = () => {
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-      </Routes>
-    </AnimatePresence>
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 };
 

@@ -63,22 +63,22 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Events */}
+          {/* Services */}
           <div>
             <h4 className="font-serif text-lg font-bold text-foreground mb-6">
-              Events
+              Services
             </h4>
             <ul className="space-y-3">
               {[
-                { label: "Weddings", slug: "weddings" },
-                { label: "Prom & School", slug: "prom" },
-                { label: "Corporate", slug: "corporate" },
-                { label: "Bachelor/Bachelorette", slug: "bachelor-bachelorette" },
-                { label: "Concerts & Festivals", slug: "concerts" },
+                { label: "Airport Transfers", slug: "airport-transfers" },
+                { label: "Corporate Transportation", slug: "corporate-transportation" },
+                { label: "Group Charters", slug: "group-charters" },
+                { label: "Wine Tours", slug: "wine-tours" },
+                { label: "Casino Trips", slug: "casino-trips" },
               ].map((item) => (
                 <li key={item.slug}>
                   <Link
-                    to={`/events/${item.slug}`}
+                    to="/services"
                     className="text-sm text-muted-foreground hover:text-gold transition-colors"
                   >
                     {item.label}
