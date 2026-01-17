@@ -11,6 +11,14 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import QuoteModal from "@/components/QuoteModal";
 import AnimatedSection from "@/components/AnimatedSection";
 
+// Import vehicle images
+import partyBusHero from "@/assets/fleet/party-bus-hero.jpg";
+import partyBusInterior from "@/assets/fleet/party-bus-interior.jpg";
+import limousine from "@/assets/fleet/limousine.jpg";
+import coachBus from "@/assets/fleet/coach-bus.jpg";
+import suvLimo from "@/assets/fleet/suv-limo.jpg";
+import sedan from "@/assets/fleet/sedan.jpg";
+
 interface VehicleVariant {
   id: string;
   name: string;
@@ -34,12 +42,12 @@ const vehicleData: Record<string, {
     title: "Party Bus",
     categoryLabel: "FEATURED PARTY BUS • 24/7 BOOKING",
     description: "Spacious party buses designed for lively celebrations and group outings. Features premium sound systems, LED lighting, and all the amenities you need for an unforgettable experience.",
-    mainImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
+    mainImage: partyBusHero,
     gallery: [
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200",
+      partyBusHero,
+      partyBusInterior,
+      coachBus,
+      limousine,
     ],
     features: [
       "Premium Sound System",
@@ -58,23 +66,23 @@ const vehicleData: Record<string, {
       "Ice & Cups Provided",
     ],
     variants: [
-      { id: "party-bus-20", name: "20 Passenger Party Bus", passengers: "15-20", sweetSpot: "18", type: "Ford E-450", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600" },
-      { id: "party-bus-25", name: "25 Passenger Party Bus", passengers: "20-25", sweetSpot: "22", type: "Freightliner", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600" },
-      { id: "party-bus-30", name: "30 Passenger Party Bus", passengers: "25-30", sweetSpot: "28", type: "Freightliner M2", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=600" },
-      { id: "party-bus-40", name: "40 Passenger Party Bus", passengers: "35-40", sweetSpot: "38", type: "Prevost", image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=600" },
-      { id: "party-bus-50", name: "50 Passenger Party Bus", passengers: "45-50", sweetSpot: "48", type: "MCI Coach", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600" },
+      { id: "party-bus-20", name: "20 Passenger Party Bus", passengers: "15-20", sweetSpot: "18", type: "Ford E-450", image: partyBusHero },
+      { id: "party-bus-25", name: "25 Passenger Party Bus", passengers: "20-25", sweetSpot: "22", type: "Freightliner", image: partyBusHero },
+      { id: "party-bus-30", name: "30 Passenger Party Bus", passengers: "25-30", sweetSpot: "28", type: "Freightliner M2", image: partyBusHero },
+      { id: "party-bus-40", name: "40 Passenger Party Bus", passengers: "35-40", sweetSpot: "38", type: "Prevost", image: partyBusHero },
+      { id: "party-bus-50", name: "50 Passenger Party Bus", passengers: "45-50", sweetSpot: "48", type: "MCI Coach", image: partyBusHero },
     ],
   },
   "limousines": {
     title: "Stretch Limousine",
     categoryLabel: "FEATURED STRETCH LIMOUSINE • 24/7 BOOKING",
     description: "Classic elegance meets modern luxury. Our stretch limousines provide the perfect setting for weddings, proms, and executive travel with premium amenities and professional service.",
-    mainImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+    mainImage: limousine,
     gallery: [
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-      "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
-      "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1200",
+      limousine,
+      suvLimo,
+      sedan,
+      partyBusInterior,
     ],
     features: [
       "Leather Interior",
@@ -93,23 +101,23 @@ const vehicleData: Record<string, {
       "Red Carpet Service",
     ],
     variants: [
-      { id: "limo-6", name: "6 Passenger Stretch Limo", passengers: "4-6", sweetSpot: "6", type: "Lincoln Town Car", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=600" },
-      { id: "limo-8", name: "8 Passenger Stretch Limo", passengers: "6-8", sweetSpot: "8", type: "Lincoln Navigator", image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" },
-      { id: "limo-10", name: "10 Passenger Stretch Limo", passengers: "8-10", sweetSpot: "10", type: "Chrysler 300", image: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=600" },
-      { id: "limo-14", name: "14 Passenger Stretch Limo", passengers: "12-14", sweetSpot: "14", type: "Hummer H2", image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600" },
-      { id: "limo-18", name: "18 Passenger Stretch Limo", passengers: "16-18", sweetSpot: "18", type: "Escalade ESV", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=600" },
+      { id: "limo-6", name: "6 Passenger Stretch Limo", passengers: "4-6", sweetSpot: "6", type: "Lincoln Town Car", image: limousine },
+      { id: "limo-8", name: "8 Passenger Stretch Limo", passengers: "6-8", sweetSpot: "8", type: "Lincoln Navigator", image: limousine },
+      { id: "limo-10", name: "10 Passenger Stretch Limo", passengers: "8-10", sweetSpot: "10", type: "Chrysler 300", image: limousine },
+      { id: "limo-14", name: "14 Passenger Stretch Limo", passengers: "12-14", sweetSpot: "14", type: "Hummer H2", image: suvLimo },
+      { id: "limo-18", name: "18 Passenger Stretch Limo", passengers: "16-18", sweetSpot: "18", type: "Escalade ESV", image: suvLimo },
     ],
   },
   "coach-buses": {
     title: "Coach Bus",
     categoryLabel: "FEATURED COACH BUS • 24/7 BOOKING",
     description: "Perfect for large groups requiring comfortable long-distance travel. Our coach buses feature panoramic windows, ample storage, and all the amenities for a pleasant journey.",
-    mainImage: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
+    mainImage: coachBus,
     gallery: [
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200",
+      coachBus,
+      partyBusHero,
+      partyBusInterior,
+      limousine,
     ],
     features: [
       "Panoramic Windows",
@@ -128,22 +136,22 @@ const vehicleData: Record<string, {
       "Luggage Compartment",
     ],
     variants: [
-      { id: "coach-36", name: "36 Passenger Coach Bus", passengers: "30-36", sweetSpot: "34", type: "MCI J4500", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=600" },
-      { id: "coach-45", name: "45 Passenger Coach Bus", passengers: "40-45", sweetSpot: "42", type: "Prevost H3-45", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600" },
-      { id: "coach-50", name: "50 Passenger Coach Bus", passengers: "45-50", sweetSpot: "48", type: "Van Hool CX45", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600" },
-      { id: "coach-56", name: "56 Passenger Coach Bus", passengers: "50-56", sweetSpot: "54", type: "MCI D4505", image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=600" },
+      { id: "coach-36", name: "36 Passenger Coach Bus", passengers: "30-36", sweetSpot: "34", type: "MCI J4500", image: coachBus },
+      { id: "coach-45", name: "45 Passenger Coach Bus", passengers: "40-45", sweetSpot: "42", type: "Prevost H3-45", image: coachBus },
+      { id: "coach-50", name: "50 Passenger Coach Bus", passengers: "45-50", sweetSpot: "48", type: "Van Hool CX45", image: coachBus },
+      { id: "coach-56", name: "56 Passenger Coach Bus", passengers: "50-56", sweetSpot: "54", type: "MCI D4505", image: coachBus },
     ],
   },
   "suv-limos": {
     title: "SUV Limousine",
     categoryLabel: "FEATURED SUV LIMOUSINE • 24/7 BOOKING",
     description: "The perfect blend of rugged style and luxurious comfort. Our SUV limousines offer more headroom and a commanding presence for those who want to make an impression.",
-    mainImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
+    mainImage: suvLimo,
     gallery: [
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
-      "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1200",
-      "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
+      suvLimo,
+      limousine,
+      sedan,
+      partyBusInterior,
     ],
     features: [
       "Spacious Interior",
@@ -162,21 +170,21 @@ const vehicleData: Record<string, {
       "Ice & Cups Provided",
     ],
     variants: [
-      { id: "suv-limo-8", name: "8 Passenger SUV Limo", passengers: "6-8", sweetSpot: "8", type: "Cadillac Escalade", image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" },
-      { id: "suv-limo-12", name: "12 Passenger SUV Limo", passengers: "10-12", sweetSpot: "12", type: "Lincoln Navigator", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=600" },
-      { id: "suv-limo-14", name: "14 Passenger SUV Limo", passengers: "12-14", sweetSpot: "14", type: "Hummer H2", image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600" },
+      { id: "suv-limo-8", name: "8 Passenger SUV Limo", passengers: "6-8", sweetSpot: "8", type: "Cadillac Escalade", image: suvLimo },
+      { id: "suv-limo-12", name: "12 Passenger SUV Limo", passengers: "10-12", sweetSpot: "12", type: "Lincoln Navigator", image: suvLimo },
+      { id: "suv-limo-14", name: "14 Passenger SUV Limo", passengers: "12-14", sweetSpot: "14", type: "Hummer H2", image: suvLimo },
     ],
   },
   "executive-sedans": {
     title: "Executive Sedan",
     categoryLabel: "FEATURED EXECUTIVE SEDAN • 24/7 BOOKING",
     description: "Professional, understated elegance for corporate executives and discerning travelers. Our executive sedans provide a quiet, comfortable ride with premium amenities.",
-    mainImage: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
+    mainImage: sedan,
     gallery: [
-      "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=1200",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-      "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1200",
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+      sedan,
+      suvLimo,
+      limousine,
+      partyBusInterior,
     ],
     features: [
       "Leather Interior",
@@ -195,21 +203,21 @@ const vehicleData: Record<string, {
       "Flight Tracking",
     ],
     variants: [
-      { id: "sedan-3", name: "3 Passenger Sedan", passengers: "2-3", sweetSpot: "3", type: "Mercedes S-Class", image: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=600" },
-      { id: "sedan-4", name: "4 Passenger Sedan", passengers: "3-4", sweetSpot: "4", type: "BMW 7 Series", image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" },
-      { id: "suv-exec", name: "Executive SUV", passengers: "4-6", sweetSpot: "5", type: "Cadillac Escalade", image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600" },
+      { id: "sedan-3", name: "3 Passenger Sedan", passengers: "2-3", sweetSpot: "3", type: "Mercedes S-Class", image: sedan },
+      { id: "sedan-4", name: "4 Passenger Sedan", passengers: "3-4", sweetSpot: "4", type: "BMW 7 Series", image: sedan },
+      { id: "suv-exec", name: "Executive SUV", passengers: "4-6", sweetSpot: "5", type: "Cadillac Escalade", image: suvLimo },
     ],
   },
   "sprinter-vans": {
     title: "Executive Sprinter Van",
     categoryLabel: "FEATURED SPRINTER VAN • 24/7 BOOKING",
     description: "Versatile luxury vans perfect for medium-sized groups. Ideal for corporate travel, wine tours, and group outings with ample space and premium amenities.",
-    mainImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
+    mainImage: partyBusHero,
     gallery: [
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200",
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1200",
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200",
+      partyBusHero,
+      partyBusInterior,
+      coachBus,
+      limousine,
     ],
     features: [
       "Luggage Area",
@@ -228,10 +236,10 @@ const vehicleData: Record<string, {
       "Tinted Windows",
     ],
     variants: [
-      { id: "sprinter-10", name: "10 Passenger Sprinter", passengers: "8-10", sweetSpot: "10", type: "Mercedes Sprinter", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600" },
-      { id: "sprinter-12", name: "12 Passenger Sprinter", passengers: "10-12", sweetSpot: "12", type: "Mercedes Sprinter", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600" },
-      { id: "sprinter-14", name: "14 Passenger Sprinter", passengers: "12-14", sweetSpot: "14", type: "Mercedes Sprinter", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=600" },
-      { id: "sprinter-16", name: "16 Passenger Sprinter", passengers: "14-16", sweetSpot: "16", type: "Ford Transit", image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=600" },
+      { id: "sprinter-10", name: "10 Passenger Sprinter", passengers: "8-10", sweetSpot: "10", type: "Mercedes Sprinter", image: partyBusHero },
+      { id: "sprinter-12", name: "12 Passenger Sprinter", passengers: "10-12", sweetSpot: "12", type: "Mercedes Sprinter", image: partyBusHero },
+      { id: "sprinter-14", name: "14 Passenger Sprinter", passengers: "12-14", sweetSpot: "14", type: "Mercedes Sprinter", image: partyBusHero },
+      { id: "sprinter-16", name: "16 Passenger Sprinter", passengers: "14-16", sweetSpot: "16", type: "Ford Transit", image: partyBusHero },
     ],
   },
 };
