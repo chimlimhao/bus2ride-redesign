@@ -2,8 +2,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import FAQ from "@/components/FAQ";
+import ComparisonTable from "@/components/ComparisonTable";
 import { Button } from "@/components/ui/button";
 import { Check, Phone } from "lucide-react";
+import QuoteModal from "@/components/QuoteModal";
 
 const pricingTiers = [
   {
@@ -137,7 +139,7 @@ const Pricing = () => {
                 }`}
               >
                 {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-gold-foreground text-xs font-bold px-4 py-1 rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-gold-foreground text-xs font-bold px-4 py-1">
                     Most Popular
                   </div>
                 )}
@@ -166,17 +168,22 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                <Button variant={tier.popular ? "gold" : "outline"} className="w-full">
-                  Get a Quote
-                </Button>
+                <QuoteModal>
+                  <Button variant={tier.popular ? "gold" : "outline"} className="w-full">
+                    Get a Quote
+                  </Button>
+                </QuoteModal>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Comparison Table */}
+      <ComparisonTable />
+
       {/* Custom Quote CTA */}
-      <section className="py-16 bg-card">
+      <section className="py-16 bg-background">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-4">
@@ -186,9 +193,11 @@ const Pricing = () => {
               Every event is unique. Let us create a tailored package that fits your specific needs and budget.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="gold" size="lg">
-                Request Custom Quote
-              </Button>
+              <QuoteModal>
+                <Button variant="gold" size="lg">
+                  Request Custom Quote
+                </Button>
+              </QuoteModal>
               <Button variant="outline" size="lg" asChild>
                 <a href="tel:888-535-2566" className="flex items-center gap-2">
                   <Phone className="w-4 h-4" />
