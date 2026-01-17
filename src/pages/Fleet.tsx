@@ -14,6 +14,7 @@ import limousine from "@/assets/fleet/limousine.jpg";
 import coachBus from "@/assets/fleet/coach-bus.jpg";
 import suvLimo from "@/assets/fleet/suv-limo.jpg";
 import sedan from "@/assets/fleet/sedan.jpg";
+import sprinterVan from "@/assets/fleet/sprinter-van.jpg";
 
 const vehicles = [
   {
@@ -90,7 +91,7 @@ const vehicles = [
     id: "sprinter-vans",
     title: "Executive Sprinter Vans",
     subtitle: "Accommodates 10-16 passengers",
-    image: partyBusHero,
+    image: sprinterVan,
     features: [
       "Luggage Area",
       "Rear AC/Heating",

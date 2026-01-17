@@ -2,18 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Fleet from "./pages/Fleet";
-import FleetDetail from "./pages/FleetDetail";
-import Services from "./pages/Services";
-import Events from "./pages/Events";
-import EventDetail from "./pages/EventDetail";
-import Pricing from "./pages/Pricing";
-import Contact from "./pages/Contact";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter } from "react-router-dom";
 import FloatingCTA from "./components/FloatingCTA";
+import AnimatedRoutes from "./components/AnimatedRoutes";
 
 const queryClient = new QueryClient();
 
@@ -24,19 +15,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <FloatingCTA />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/fleet" element={<Fleet />} />
-          <Route path="/fleet/:id" element={<FleetDetail />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<EventDetail />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
