@@ -298,7 +298,7 @@ const FleetDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container px-4 py-32 text-center">
+        <div className="container py-32 text-center">
           <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Vehicle Not Found</h1>
           <p className="text-muted-foreground mb-8">The vehicle you're looking for doesn't exist.</p>
           <Button variant="gold" asChild>
@@ -316,7 +316,7 @@ const FleetDetail = () => {
 
       {/* Vehicle Detail Section */}
       <section className="pt-32 pb-20">
-        <div className="container px-4">
+        <div className="container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Left Column - Images */}
             <AnimatedSection direction="left">
@@ -448,7 +448,7 @@ const FleetDetail = () => {
 
       {/* Vehicle Variants Section */}
       <section className="py-20 bg-card">
-        <div className="container px-4">
+        <div className="container">
           <AnimatedSection className="text-center mb-12">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
               Choose Your <span className="text-gradient-gold">{vehicle.title}</span>

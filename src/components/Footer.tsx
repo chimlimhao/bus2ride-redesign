@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="bg-card border-t border-border">
-      <div className="container px-4 py-16">
+      <div className="container py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>

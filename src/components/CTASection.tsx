@@ -7,7 +7,7 @@ const CTASection = () => {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-card via-background to-background" />
 
-      <div className="container relative px-4">
+      <div className="container relative">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Ready to Book Your

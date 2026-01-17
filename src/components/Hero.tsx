@@ -19,7 +19,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container relative z-10 px-4 py-20 lg:py-32">
+      <div className="container relative z-10 py-20 lg:py-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <AnimatedSection delay={0}>

@@ -132,7 +132,7 @@ const Fleet = () => {
 
       {/* Vehicles List - Alternating Layout */}
       <section className="pb-24">
-        <div className="container px-4">
+        <div className="container">
           <div className="space-y-24 lg:space-y-32">
             {vehicles.map((vehicle, index) => (
               <div

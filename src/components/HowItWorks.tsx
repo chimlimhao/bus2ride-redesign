@@ -21,7 +21,7 @@ const steps = [
 const HowItWorks = () => {
   return (
     <section className="py-24 lg:py-32 bg-card">
-      <div className="container px-4">
+      <div className="container">
         {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">

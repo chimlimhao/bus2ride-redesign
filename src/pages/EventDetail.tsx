@@ -208,7 +208,7 @@ const EventDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container px-4 py-32 text-center">
+        <div className="container py-32 text-center">
           <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Event Not Found</h1>
           <p className="text-muted-foreground mb-8">The event you're looking for doesn't exist.</p>
           <Button variant="gold" asChild>
@@ -246,7 +246,7 @@ const EventDetail = () => {
 
       {/* Features Section */}
       <section className="py-20">
-        <div className="container px-4">
+        <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -274,7 +274,7 @@ const EventDetail = () => {
 
       {/* Popular Vehicles */}
       <section className="py-20 bg-card">
-        <div className="container px-4">
+        <div className="container">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
             Popular Vehicles for <span className="text-gradient-gold">{event.title}</span>
           </h2>
@@ -306,7 +306,7 @@ const EventDetail = () => {
 
       {/* Tips Section */}
       <section className="py-20">
-        <div className="container px-4">
+        <div className="container">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
             Planning <span className="text-gradient-gold">Tips</span>
           </h2>
