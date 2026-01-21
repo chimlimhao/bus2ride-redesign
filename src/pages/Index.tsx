@@ -4,6 +4,7 @@ import FleetCards from "@/components/FleetCards";
 import HowItWorks from "@/components/HowItWorks";
 import EventCards from "@/components/EventCards";
 import Testimonials from "@/components/Testimonials";
+import ClickBankAffiliate from "@/components/ClickBankAffiliate";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -16,6 +17,7 @@ const Index = () => {
       <HowItWorks />
       <EventCards />
       <Testimonials />
+      <ClickBankAffiliate />
       <CTASection />
       <Footer />
     </div>
