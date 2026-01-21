@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 import QuoteModal from "@/components/QuoteModal";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -13,12 +14,22 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const Header = () => {
+type HeaderProps = {
+  /** When a fixed TopBanner exists, offset the fixed header so they don't overlap. */
+  withTopBanner?: boolean;
+};
+
+const Header = ({ withTopBanner = false }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <header
+      className={cn(
+        "fixed left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border",
+        withTopBanner ? "top-10 md:top-12" : "top-0"
+      )}
+    >
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo - Left */}
