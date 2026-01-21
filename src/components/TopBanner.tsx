@@ -15,37 +15,31 @@ const TopBanner = () => {
       <div className="container h-10 md:h-12">
         <div className="flex h-full items-center justify-center gap-4 md:gap-8 text-sm md:text-base font-semibold">
           <a 
-            href="#" 
+            href="/fleet" 
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            <Gift className="w-4 h-4" />
-            <span>🎉 Plan the Perfect Party!</span>
+            <Truck className="w-4 h-4" />
+            <span>🚌 Free Quote on Party Buses</span>
           </a>
           
           <span className="hidden md:inline text-gold-foreground/40">|</span>
           
           <a 
-            href="#" 
+            href="/services" 
             className="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            <Tag className="w-4 h-4" />
-            <span>📚 Get Event Planning Guide</span>
+            <Gift className="w-4 h-4" />
+            <span>🎉 15% OFF Wedding Packages</span>
           </a>
           
           <span className="hidden lg:inline text-gold-foreground/40">|</span>
           
           <a 
-            href="#" 
+            href="/contact" 
             className="hidden lg:flex items-center gap-2 hover:opacity-80 transition-opacity"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            <Truck className="w-4 h-4" />
-            <span>🚌 Book Now & Save 10%</span>
+            <Tag className="w-4 h-4" />
+            <span>✨ Book Today & Get VIP Treatment</span>
           </a>
         </div>
       </div>
