@@ -7,9 +7,9 @@ const TopBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gold text-gold-foreground relative">
-      <div className="container py-2">
-        <div className="flex items-center justify-center gap-4 md:gap-8 text-xs md:text-sm font-medium">
+    <div className="bg-gold text-gold-foreground relative z-50">
+      <div className="container py-3">
+        <div className="flex items-center justify-center gap-4 md:gap-8 text-sm md:text-base font-semibold">
           <a 
             href="#" 
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -20,7 +20,7 @@ const TopBanner = () => {
             <span>🎉 Plan the Perfect Party!</span>
           </a>
           
-          <span className="hidden md:inline text-gold-foreground/50">|</span>
+          <span className="hidden md:inline text-gold-foreground/40">|</span>
           
           <a 
             href="#" 
@@ -32,7 +32,7 @@ const TopBanner = () => {
             <span>📚 Get Event Planning Guide</span>
           </a>
           
-          <span className="hidden lg:inline text-gold-foreground/50">|</span>
+          <span className="hidden lg:inline text-gold-foreground/40">|</span>
           
           <a 
             href="#" 
@@ -47,10 +47,10 @@ const TopBanner = () => {
       </div>
       <button
         onClick={() => setIsVisible(false)}
-        className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gold-foreground/70 hover:text-gold-foreground transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-gold-foreground/70 hover:text-gold-foreground transition-colors"
         aria-label="Close banner"
       >
-        <X className="w-4 h-4" />
+        <X className="w-5 h-5" />
       </button>
     </div>
   );
