@@ -7,9 +7,13 @@ const TopBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gold text-gold-foreground relative z-50">
-      <div className="container py-3">
-        <div className="flex items-center justify-center gap-4 md:gap-8 text-sm md:text-base font-semibold">
+    <div
+      className="fixed top-0 left-0 right-0 z-50 bg-gold text-gold-foreground"
+      role="region"
+      aria-label="Promotions"
+    >
+      <div className="container h-10 md:h-12">
+        <div className="flex h-full items-center justify-center gap-4 md:gap-8 text-sm md:text-base font-semibold">
           <a 
             href="#" 
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
