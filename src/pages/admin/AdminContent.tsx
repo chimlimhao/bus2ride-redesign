@@ -233,37 +233,49 @@ const BannerSection = ({ onChange }: SectionProps) => {
   );
 };
 
-const HeroSection = ({ onChange }: SectionProps) => (
-  <>
-    <SectionCard title="Hero Content" subtitle="Main heading and subtext visible on the landing page">
-      <Field label="Badge Text" value="Premium Fleet Rentals" onChange={onChange} />
-      <Field label="Headline Line 1" value="Group Transport" onChange={onChange} />
-      <Field label="Headline Line 2 (Gold)" value="Made Easy" onChange={onChange} />
-      <Field label="Subheading" value="Instant quotes, transparent pricing, and meticulously maintained vehicles for weddings, proms, corporate events, and more." rows={3} onChange={onChange} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Primary CTA Text" value="Get Instant Quote" onChange={onChange} />
-        <Field label="Secondary CTA Text" value="View Our Fleet" onChange={onChange} />
-      </div>
-    </SectionCard>
-    <SectionCard title="Trust Indicators" subtitle="Stats displayed below the hero content">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { v: "98%", l: "On-Time Rate" }, { v: "15K+", l: "Happy Customers" },
-          { v: "150+", l: "Premium Vehicles" }, { v: "4.9", l: "Rating" },
-        ].map((s, i) => (
-          <div key={i} className="space-y-3">
-            <Field label={`Stat ${i + 1} Value`} value={s.v} onChange={onChange} />
-            <Field label={`Stat ${i + 1} Label`} value={s.l} onChange={onChange} />
-          </div>
-        ))}
-      </div>
-    </SectionCard>
-    <SectionCard title="Hero Media" subtitle="Background video and fallback image">
-      <Field label="Video URL" value="https://cdn.coverr.co/videos/coverr-driving-through-the-city-at-night-5639/1080p.mp4" onChange={onChange} />
-      <Field label="Fallback Image URL" value="https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=2048" onChange={onChange} />
-    </SectionCard>
-  </>
-);
+const HeroSection = ({ onChange }: SectionProps) => {
+  const [heroImage, setHeroImage] = useState("https://images.unsplash.com/photo-1563720360172-67b8f3dce741?q=80&w=2048");
+
+  return (
+    <>
+      <SectionCard title="Hero Content" subtitle="Main heading and subtext visible on the landing page">
+        <Field label="Badge Text" value="Premium Fleet Rentals" onChange={onChange} />
+        <Field label="Headline Line 1" value="Group Transport" onChange={onChange} />
+        <Field label="Headline Line 2 (Gold)" value="Made Easy" onChange={onChange} />
+        <Field label="Subheading" value="Instant quotes, transparent pricing, and meticulously maintained vehicles for weddings, proms, corporate events, and more." rows={3} onChange={onChange} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label="Primary CTA Text" value="Get Instant Quote" onChange={onChange} />
+          <Field label="Secondary CTA Text" value="View Our Fleet" onChange={onChange} />
+        </div>
+      </SectionCard>
+      <SectionCard title="Trust Indicators" subtitle="Stats displayed below the hero content">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { v: "98%", l: "On-Time Rate" }, { v: "15K+", l: "Happy Customers" },
+            { v: "150+", l: "Premium Vehicles" }, { v: "4.9", l: "Rating" },
+          ].map((s, i) => (
+            <div key={i} className="space-y-3">
+              <Field label={`Stat ${i + 1} Value`} value={s.v} onChange={onChange} />
+              <Field label={`Stat ${i + 1} Label`} value={s.l} onChange={onChange} />
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+      <SectionCard title="Hero Media" subtitle="Background video and fallback image">
+        <Field label="Video URL" value="https://cdn.coverr.co/videos/coverr-driving-through-the-city-at-night-5639/1080p.mp4" onChange={onChange} />
+        <div className="space-y-2">
+          <Label className="text-foreground text-sm">Fallback / Background Image</Label>
+          <ImageUploadField
+            src={heroImage}
+            alt="Hero background"
+            onImageChange={(url) => { setHeroImage(url); onChange?.(); }}
+          />
+          <Field label="Or enter Image URL" value={heroImage} onChange={onChange} />
+        </div>
+      </SectionCard>
+    </>
+  );
+};
 
 const FleetShowcaseSection = ({ onChange }: SectionProps) => {
   const { toast } = useToast();

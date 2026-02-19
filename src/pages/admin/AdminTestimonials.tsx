@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -156,14 +156,14 @@ const AdminTestimonials = () => {
         </div>
       </div>
 
-      {/* Edit/Add Dialog */}
-      <Dialog open={!!editingItem} onOpenChange={() => { setEditingItem(null); setIsAdding(false); }}>
-        <DialogContent className="bg-card border-border max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">{isAdding ? "Add Testimonial" : "Edit Testimonial"}</DialogTitle>
-          </DialogHeader>
+      {/* Edit/Add Sheet */}
+      <Sheet open={!!editingItem} onOpenChange={() => { setEditingItem(null); setIsAdding(false); }}>
+        <SheetContent className="bg-card border-border sm:max-w-lg overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">{isAdding ? "Add Testimonial" : "Edit Testimonial"}</SheetTitle>
+          </SheetHeader>
           {editingItem && (
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden bg-secondary border border-border shrink-0 relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                   {editingItem.image ? <img src={editingItem.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-muted-foreground"><Upload className="w-5 h-5" /></div>}
@@ -213,28 +213,30 @@ const AdminTestimonials = () => {
                 <Label className="text-foreground">Testimonial Text</Label>
                 <Textarea value={editingItem.text} onChange={(e) => setEditingItem({ ...editingItem, text: e.target.value })} className="bg-secondary border-border" rows={4} />
               </div>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 pt-2">
                 <Button variant="outline" onClick={() => { setEditingItem(null); setIsAdding(false); }}>Cancel</Button>
                 <Button className="bg-gold text-gold-foreground hover:bg-gold/90" onClick={handleSave}>{isAdding ? "Add" : "Save Changes"}</Button>
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
-      {/* Delete Confirmation */}
-      <Dialog open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
-        <DialogContent className="bg-card border-border max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">Delete Testimonial</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure? This action cannot be undone.</p>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+      {/* Delete Confirmation Sheet */}
+      <Sheet open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
+        <SheetContent className="bg-card border-border sm:max-w-sm">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">Delete Testimonial</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-4">
+            <p className="text-sm text-muted-foreground">Are you sure? This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+              <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

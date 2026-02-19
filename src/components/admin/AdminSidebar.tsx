@@ -5,7 +5,6 @@ import {
   CalendarDays,
   MessageSquareQuote,
   HelpCircle,
-  Image,
   Settings,
   LogOut,
   Crown,
@@ -137,14 +136,12 @@ const sidebarGroups: SidebarGroup[] = [
     items: [
       { title: "Testimonials", icon: MessageSquareQuote, path: "/admin/testimonials" },
       { title: "FAQ Management", icon: HelpCircle, path: "/admin/faq" },
-      { title: "Media Gallery", icon: Image, path: "/admin/media" },
     ],
   },
   {
-    label: "Business",
+    label: "Leads",
     items: [
       { title: "Inquiries", icon: Users, path: "/admin/inquiries" },
-      { title: "Pricing", icon: DollarSign, path: "/admin/pricing" },
     ],
   },
 ];
@@ -155,7 +152,6 @@ const AdminSidebar = () => {
   const location = useLocation();
   const currentUrl = location.pathname + location.search;
 
-  // Auto-expand the parent group that contains the active child
   useEffect(() => {
     for (const group of sidebarGroups) {
       for (const item of group.items) {
@@ -189,7 +185,6 @@ const AdminSidebar = () => {
         collapsed ? "w-[68px]" : "w-[280px]"
       )}
     >
-      {/* Brand */}
       <div className="p-4 border-b border-border flex items-center gap-3">
         <div className="w-9 h-9 bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
           <Crown className="w-5 h-5 text-gold" />
@@ -202,7 +197,6 @@ const AdminSidebar = () => {
         )}
       </div>
 
-      {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="absolute -right-3 top-16 w-6 h-6 bg-secondary border border-border flex items-center justify-center hover:bg-muted transition-colors z-10"
@@ -210,7 +204,6 @@ const AdminSidebar = () => {
         <ChevronLeft className={cn("w-3 h-3 text-muted-foreground transition-transform", collapsed && "rotate-180")} />
       </button>
 
-      {/* Navigation */}
       <nav className="flex-1 py-3 overflow-y-auto">
         {sidebarGroups.map((group) => (
           <div key={group.label} className={cn("mb-1", collapsed ? "px-2" : "px-3")}>
@@ -295,7 +288,6 @@ const AdminSidebar = () => {
         ))}
       </nav>
 
-      {/* Bottom section */}
       <div className="border-t border-border p-3 space-y-1">
         <NavLink
           to="/admin/settings"

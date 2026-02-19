@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -130,14 +130,14 @@ const AdminEvents = () => {
         </div>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingEvent} onOpenChange={() => setViewingEvent(null)}>
-        <DialogContent className="bg-card border-border max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">{viewingEvent?.name}</DialogTitle>
-          </DialogHeader>
+      {/* View Sheet */}
+      <Sheet open={!!viewingEvent} onOpenChange={() => setViewingEvent(null)}>
+        <SheetContent className="bg-card border-border sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">{viewingEvent?.name}</SheetTitle>
+          </SheetHeader>
           {viewingEvent && (
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               {viewingEvent.image && <img src={viewingEvent.image} alt={viewingEvent.name} className="w-full h-48 object-cover border border-border" />}
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div><span className="text-muted-foreground">Type:</span> <Badge variant="outline" className="ml-1">{viewingEvent.type}</Badge></div>
@@ -147,17 +147,17 @@ const AdminEvents = () => {
               <p className="text-sm text-muted-foreground">{viewingEvent.description}</p>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
-      {/* Edit/Add Dialog */}
-      <Dialog open={!!editingEvent} onOpenChange={() => { setEditingEvent(null); setIsAdding(false); }}>
-        <DialogContent className="bg-card border-border max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">{isAdding ? "Add Event / Service" : "Edit Event / Service"}</DialogTitle>
-          </DialogHeader>
+      {/* Edit/Add Sheet */}
+      <Sheet open={!!editingEvent} onOpenChange={() => { setEditingEvent(null); setIsAdding(false); }}>
+        <SheetContent className="bg-card border-border sm:max-w-lg overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">{isAdding ? "Add Event / Service" : "Edit Event / Service"}</SheetTitle>
+          </SheetHeader>
           {editingEvent && (
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <div className="w-full h-40 bg-secondary border border-border overflow-hidden relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                 {editingEvent.image ? (
                   <img src={editingEvent.image} alt={editingEvent.name} className="w-full h-full object-cover" />
@@ -205,28 +205,30 @@ const AdminEvents = () => {
                 <Label className="text-foreground">Description</Label>
                 <Textarea value={editingEvent.description} onChange={(e) => setEditingEvent({ ...editingEvent, description: e.target.value })} className="bg-secondary border-border" />
               </div>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 pt-2">
                 <Button variant="outline" onClick={() => { setEditingEvent(null); setIsAdding(false); }}>Cancel</Button>
                 <Button className="bg-gold text-gold-foreground hover:bg-gold/90" onClick={handleSave}>{isAdding ? "Add" : "Save Changes"}</Button>
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
-      {/* Delete Confirmation */}
-      <Dialog open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
-        <DialogContent className="bg-card border-border max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">Delete Event</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure you want to remove this event? This action cannot be undone.</p>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+      {/* Delete Confirmation Sheet */}
+      <Sheet open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
+        <SheetContent className="bg-card border-border sm:max-w-sm">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">Delete Event</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-4">
+            <p className="text-sm text-muted-foreground">Are you sure you want to remove this event? This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+              <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
