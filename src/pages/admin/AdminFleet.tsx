@@ -4,13 +4,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Pencil, Trash2, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+import partyBusImg from "@/assets/fleet/party-bus-hero.jpg";
+import limousineImg from "@/assets/fleet/limousine.jpg";
+import sprinterImg from "@/assets/fleet/sprinter-van.jpg";
+import suvLimoImg from "@/assets/fleet/suv-limo.jpg";
+import sedanImg from "@/assets/fleet/sedan.jpg";
+import coachBusImg from "@/assets/fleet/coach-bus.jpg";
+
 const fleetData = [
-  { id: 1, name: "Party Bus", capacity: "20-40", status: "Active", price: "$250/hr", image: "party-bus-hero.jpg" },
-  { id: 2, name: "Stretch Limousine", capacity: "8-12", status: "Active", price: "$175/hr", image: "limousine.jpg" },
-  { id: 3, name: "Sprinter Van", capacity: "12-15", status: "Active", price: "$150/hr", image: "sprinter-van.jpg" },
-  { id: 4, name: "SUV Limousine", capacity: "6-8", status: "Maintenance", price: "$200/hr", image: "suv-limo.jpg" },
-  { id: 5, name: "Luxury Sedan", capacity: "3-4", status: "Active", price: "$95/hr", image: "sedan.jpg" },
-  { id: 6, name: "Coach Bus", capacity: "40-56", status: "Active", price: "$350/hr", image: "coach-bus.jpg" },
+  { id: 1, name: "Party Bus", capacity: "20-40", status: "Active", price: "$250/hr", image: partyBusImg },
+  { id: 2, name: "Stretch Limousine", capacity: "8-12", status: "Active", price: "$175/hr", image: limousineImg },
+  { id: 3, name: "Sprinter Van", capacity: "12-15", status: "Active", price: "$150/hr", image: sprinterImg },
+  { id: 4, name: "SUV Limousine", capacity: "6-8", status: "Maintenance", price: "$200/hr", image: suvLimoImg },
+  { id: 5, name: "Luxury Sedan", capacity: "3-4", status: "Active", price: "$95/hr", image: sedanImg },
+  { id: 6, name: "Coach Bus", capacity: "40-56", status: "Active", price: "$350/hr", image: coachBusImg },
 ];
 
 const AdminFleet = () => {
@@ -43,7 +50,7 @@ const AdminFleet = () => {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-8 bg-secondary border border-border overflow-hidden">
-                        <div className="w-full h-full bg-muted" />
+                        <img src={vehicle.image} alt={vehicle.name} className="w-full h-full object-cover" />
                       </div>
                       <span className="font-medium text-foreground">{vehicle.name}</span>
                     </div>

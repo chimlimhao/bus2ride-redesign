@@ -6,6 +6,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Save, RotateCcw, Plus, Trash2 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 
+import partyBusImg from "@/assets/fleet/party-bus-hero.jpg";
+import limousineImg from "@/assets/fleet/limousine.jpg";
+import coachBusImg from "@/assets/fleet/coach-bus.jpg";
+import suvLimoImg from "@/assets/fleet/suv-limo.jpg";
+import sedanImg from "@/assets/fleet/sedan.jpg";
+import sprinterImg from "@/assets/fleet/sprinter-van.jpg";
+
 const AdminContent = () => {
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section") || "hero";
@@ -174,21 +181,50 @@ const HeroSection = () => (
   </>
 );
 
+const fleetShowcaseData = [
+  { name: "Party Buses", passengers: "20-50 passengers", desc: "Ultimate party experience on wheels.", image: partyBusImg },
+  { name: "Stretch Limousines", passengers: "8-12 passengers", desc: "Classic luxury for any occasion.", image: limousineImg },
+  { name: "Coach Buses", passengers: "40-56 passengers", desc: "Comfortable group transportation.", image: coachBusImg },
+  { name: "SUV Limousines", passengers: "6-8 passengers", desc: "Spacious premium SUV experience.", image: suvLimoImg },
+  { name: "Executive Sedans", passengers: "3-4 passengers", desc: "Elegant executive travel.", image: sedanImg },
+  { name: "Sprinter Vans", passengers: "12-15 passengers", desc: "Versatile group shuttle.", image: sprinterImg },
+];
+
 const FleetShowcaseSection = () => (
   <SectionCard title="Fleet Showcase Cards" subtitle="Vehicle cards shown on the homepage">
     <Field label="Section Title" value='Our Fleet' />
     <Field label="Section Subtitle" value="From intimate limousines to full-size coach buses, we have the perfect vehicle for every occasion." rows={2} />
     <div className="space-y-4 mt-4">
-      {["Party Buses", "Stretch Limousines", "Coach Buses", "SUV Limousines", "Executive Sedans", "Sprinter Vans"].map((v, i) => (
+      {fleetShowcaseData.map((v, i) => (
         <div key={i} className="p-4 bg-secondary/50 border border-border">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-foreground">{v}</span>
+            <span className="text-sm font-medium text-foreground">{v.name}</span>
             <Button variant="ghost" size="sm" className="text-destructive h-7"><Trash2 className="w-3.5 h-3.5" /></Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <Field label="Title" value={v} />
-            <Field label="Passengers" value="20-50 passengers" />
-            <Field label="Description" value="Ultimate party experience on wheels." />
+          <div className="flex gap-4">
+            {/* Image Preview & Upload */}
+            <div className="shrink-0 space-y-2">
+              <Label className="text-foreground text-sm">Image</Label>
+              <div className="w-32 h-24 bg-secondary border border-border overflow-hidden relative group">
+                <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <Button variant="ghost" size="sm" className="text-white text-xs h-7 gap-1">
+                    <Plus className="w-3 h-3" /> Change
+                  </Button>
+                </div>
+              </div>
+            </div>
+            {/* Fields */}
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Field label="Title" value={v.name} />
+              <Field label="Passengers" value={v.passengers} />
+              <div className="md:col-span-2">
+                <Field label="Description" value={v.desc} />
+              </div>
+              <div className="md:col-span-2">
+                <Field label="Image URL" value={v.image} />
+              </div>
+            </div>
           </div>
         </div>
       ))}
