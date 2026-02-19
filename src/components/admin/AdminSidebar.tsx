@@ -29,19 +29,26 @@ import {
   Gift,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-interface SidebarGroup {
-  label: string;
-  items: SidebarItem[];
+interface SidebarChild {
+  title: string;
+  icon: any;
+  path: string;
 }
 
 interface SidebarItem {
   title: string;
   icon: any;
   path: string;
-  children?: { title: string; icon: any; path: string }[];
+  children?: SidebarChild[];
+}
+
+interface SidebarGroup {
+  label: string;
+  items: SidebarItem[];
 }
 
 const sidebarGroups: SidebarGroup[] = [
@@ -57,7 +64,7 @@ const sidebarGroups: SidebarGroup[] = [
       {
         title: "Home Page",
         icon: Home,
-        path: "/admin/content",
+        path: "/admin/content?section=hero",
         children: [
           { title: "Top Banner", icon: Megaphone, path: "/admin/content?section=banner" },
           { title: "Hero Section", icon: Type, path: "/admin/content?section=hero" },
@@ -75,7 +82,6 @@ const sidebarGroups: SidebarGroup[] = [
         path: "/admin/fleet",
         children: [
           { title: "Vehicles", icon: List, path: "/admin/fleet" },
-          { title: "Pricing", icon: DollarSign, path: "/admin/pricing" },
         ],
       },
       {
@@ -98,7 +104,7 @@ const sidebarGroups: SidebarGroup[] = [
       {
         title: "About Page",
         icon: Info,
-        path: "/admin/content?section=about",
+        path: "/admin/content?section=about-story",
         children: [
           { title: "Our Story", icon: BookOpen, path: "/admin/content?section=about-story" },
           { title: "Stats", icon: BarChart3, path: "/admin/content?section=about-stats" },
@@ -109,7 +115,7 @@ const sidebarGroups: SidebarGroup[] = [
       {
         title: "Contact Page",
         icon: Phone,
-        path: "/admin/content?section=contact",
+        path: "/admin/content?section=contact-info",
         children: [
           { title: "Contact Info", icon: Phone, path: "/admin/content?section=contact-info" },
           { title: "Contact Form", icon: Type, path: "/admin/content?section=contact-form" },
@@ -118,7 +124,7 @@ const sidebarGroups: SidebarGroup[] = [
       {
         title: "Pricing Page",
         icon: DollarSign,
-        path: "/admin/content?section=pricing",
+        path: "/admin/content?section=pricing-tiers",
         children: [
           { title: "Pricing Tiers", icon: DollarSign, path: "/admin/content?section=pricing-tiers" },
           { title: "Comparison Table", icon: List, path: "/admin/content?section=pricing-comparison" },
@@ -138,18 +144,42 @@ const sidebarGroups: SidebarGroup[] = [
     label: "Business",
     items: [
       { title: "Inquiries", icon: Users, path: "/admin/inquiries" },
+      { title: "Pricing", icon: DollarSign, path: "/admin/pricing" },
     ],
   },
 ];
 
 const AdminSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [expandedItems, setExpandedItems] = useState<string[]>(["Home Page"]);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const location = useLocation();
+  const currentUrl = location.pathname + location.search;
+
+  // Auto-expand the parent group that contains the active child
+  useEffect(() => {
+    for (const group of sidebarGroups) {
+      for (const item of group.items) {
+        if (item.children) {
+          const isChildActive = item.children.some((child) => currentUrl === child.path);
+          if (isChildActive && !expandedItems.includes(item.title)) {
+            setExpandedItems((prev) => [...prev, item.title]);
+          }
+        }
+      }
+    }
+  }, [currentUrl]);
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) =>
       prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
     );
+  };
+
+  const isChildActive = (path: string) => currentUrl === path;
+
+  const isParentActive = (item: SidebarItem) => {
+    if (!item.children) return currentUrl.startsWith(item.path.split("?")[0]);
+    return item.children.some((child) => currentUrl === child.path);
   };
 
   return (
@@ -161,7 +191,7 @@ const AdminSidebar = () => {
     >
       {/* Brand */}
       <div className="p-4 border-b border-border flex items-center gap-3">
-        <div className="w-9 h-9 bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+        <div className="w-9 h-9 bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
           <Crown className="w-5 h-5 text-gold" />
         </div>
         {!collapsed && (
@@ -185,7 +215,7 @@ const AdminSidebar = () => {
         {sidebarGroups.map((group) => (
           <div key={group.label} className={cn("mb-1", collapsed ? "px-2" : "px-3")}>
             {!collapsed && (
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2 mt-3 px-2">
+              <p className="text-[10px] uppercase tracking-widest text-gold/70 font-semibold mb-2 mt-3 px-2">
                 {group.label}
               </p>
             )}
@@ -196,10 +226,18 @@ const AdminSidebar = () => {
                     <div>
                       <button
                         onClick={() => toggleExpand(item.title)}
-                        className="flex items-center justify-between w-full px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200 group"
+                        className={cn(
+                          "flex items-center justify-between w-full px-3 py-2 text-sm transition-all duration-200 group",
+                          isParentActive(item)
+                            ? "text-gold bg-gold/5"
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                        )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                          <item.icon className={cn(
+                            "w-4 h-4 shrink-0 transition-colors",
+                            isParentActive(item) ? "text-gold" : "group-hover:text-gold"
+                          )} />
                           <span className="truncate">{item.title}</span>
                         </div>
                         <ChevronDown
@@ -210,15 +248,22 @@ const AdminSidebar = () => {
                         />
                       </button>
                       {expandedItems.includes(item.title) && (
-                        <ul className="ml-4 pl-3 border-l border-border/50 space-y-0.5 mt-0.5 mb-1">
+                        <ul className="ml-4 pl-3 border-l border-gold/15 space-y-0.5 mt-0.5 mb-1">
                           {item.children.map((child) => (
                             <li key={child.path + child.title}>
                               <NavLink
                                 to={child.path}
-                                className="flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-all duration-200 group"
-                                activeClassName="bg-primary/10 text-primary"
+                                className={cn(
+                                  "flex items-center gap-2.5 px-2.5 py-1.5 text-xs transition-all duration-200 group",
+                                  isChildActive(child.path)
+                                    ? "bg-gold/10 text-gold font-medium"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                                )}
                               >
-                                <child.icon className="w-3.5 h-3.5 shrink-0 group-hover:text-primary transition-colors" />
+                                <child.icon className={cn(
+                                  "w-3.5 h-3.5 shrink-0 transition-colors",
+                                  isChildActive(child.path) ? "text-gold" : "group-hover:text-gold"
+                                )} />
                                 <span className="truncate">{child.title}</span>
                               </NavLink>
                             </li>
@@ -229,10 +274,17 @@ const AdminSidebar = () => {
                   ) : (
                     <NavLink
                       to={item.path}
-                      className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200 group"
-                      activeClassName="bg-primary/10 text-primary border-r-2 border-primary"
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 group",
+                        isChildActive(item.path) || (item.path === "/admin/dashboard" && location.pathname === "/admin/dashboard")
+                          ? "bg-gold/10 text-gold border-r-2 border-gold"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      )}
                     >
-                      <item.icon className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                      <item.icon className={cn(
+                        "w-4 h-4 shrink-0 transition-colors",
+                        isChildActive(item.path) ? "text-gold" : "group-hover:text-gold"
+                      )} />
                       {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
                   )}
@@ -247,8 +299,12 @@ const AdminSidebar = () => {
       <div className="border-t border-border p-3 space-y-1">
         <NavLink
           to="/admin/settings"
-          className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200"
-          activeClassName="bg-primary/10 text-primary"
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 text-sm transition-all duration-200",
+            location.pathname === "/admin/settings"
+              ? "bg-gold/10 text-gold"
+              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+          )}
         >
           <Settings className="w-4 h-4 shrink-0" />
           {!collapsed && <span>Settings</span>}

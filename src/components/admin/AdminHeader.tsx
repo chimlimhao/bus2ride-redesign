@@ -41,11 +41,11 @@ const AdminHeader = ({ title, description }: AdminHeaderProps) => {
 
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-gold rounded-full" />
           </Button>
 
-          <div className="w-8 h-8 bg-primary/20 border border-primary/30 flex items-center justify-center">
-            <User className="w-4 h-4 text-primary" />
+          <div className="w-8 h-8 bg-gold/10 border border-gold/20 flex items-center justify-center">
+            <User className="w-4 h-4 text-gold" />
           </div>
         </div>
       </div>
