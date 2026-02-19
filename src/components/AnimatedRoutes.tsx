@@ -22,8 +22,6 @@ import AdminEvents from "@/pages/admin/AdminEvents";
 import AdminTestimonials from "@/pages/admin/AdminTestimonials";
 import AdminFAQ from "@/pages/admin/AdminFAQ";
 import AdminContent from "@/pages/admin/AdminContent";
-import AdminMedia from "@/pages/admin/AdminMedia";
-import AdminPricing from "@/pages/admin/AdminPricing";
 import AdminInquiries from "@/pages/admin/AdminInquiries";
 import AdminSettings from "@/pages/admin/AdminSettings";
 
@@ -55,8 +53,6 @@ const AnimatedRoutes = () => {
             <Route path="testimonials" element={<AdminTestimonials />} />
             <Route path="faq" element={<AdminFAQ />} />
             <Route path="content" element={<AdminContent />} />
-            <Route path="media" element={<AdminMedia />} />
-            <Route path="pricing" element={<AdminPricing />} />
             <Route path="inquiries" element={<AdminInquiries />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>

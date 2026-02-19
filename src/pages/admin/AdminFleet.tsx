@@ -1,13 +1,13 @@
 import AdminHeader from "@/components/admin/AdminHeader";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Eye, X, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, Upload } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -134,14 +134,14 @@ const AdminFleet = () => {
         </div>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingVehicle} onOpenChange={() => setViewingVehicle(null)}>
-        <DialogContent className="bg-card border-border max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">{viewingVehicle?.name}</DialogTitle>
-          </DialogHeader>
+      {/* View Sheet */}
+      <Sheet open={!!viewingVehicle} onOpenChange={() => setViewingVehicle(null)}>
+        <SheetContent className="bg-card border-border sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">{viewingVehicle?.name}</SheetTitle>
+          </SheetHeader>
           {viewingVehicle && (
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               {viewingVehicle.image && (
                 <img src={viewingVehicle.image} alt={viewingVehicle.name} className="w-full h-48 object-cover border border-border" />
               )}
@@ -153,17 +153,17 @@ const AdminFleet = () => {
               <p className="text-sm text-muted-foreground">{viewingVehicle.description}</p>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
-      {/* Edit/Add Dialog */}
-      <Dialog open={!!editingVehicle} onOpenChange={() => { setEditingVehicle(null); setIsAdding(false); }}>
-        <DialogContent className="bg-card border-border max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">{isAdding ? "Add Vehicle" : "Edit Vehicle"}</DialogTitle>
-          </DialogHeader>
+      {/* Edit/Add Sheet */}
+      <Sheet open={!!editingVehicle} onOpenChange={() => { setEditingVehicle(null); setIsAdding(false); }}>
+        <SheetContent className="bg-card border-border sm:max-w-lg overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">{isAdding ? "Add Vehicle" : "Edit Vehicle"}</SheetTitle>
+          </SheetHeader>
           {editingVehicle && (
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <div
                 className="w-full h-40 bg-secondary border border-border overflow-hidden relative group cursor-pointer"
                 onClick={() => fileInputRef.current?.click()}
@@ -210,28 +210,30 @@ const AdminFleet = () => {
                 <Label className="text-foreground">Description</Label>
                 <Textarea value={editingVehicle.description} onChange={(e) => setEditingVehicle({ ...editingVehicle, description: e.target.value })} className="bg-secondary border-border" />
               </div>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 pt-2">
                 <Button variant="outline" onClick={() => { setEditingVehicle(null); setIsAdding(false); }}>Cancel</Button>
                 <Button className="bg-gold text-gold-foreground hover:bg-gold/90" onClick={handleSave}>{isAdding ? "Add Vehicle" : "Save Changes"}</Button>
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
-      {/* Delete Confirmation */}
-      <Dialog open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
-        <DialogContent className="bg-card border-border max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-foreground">Delete Vehicle</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure you want to remove this vehicle? This action cannot be undone.</p>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+      {/* Delete Confirmation Sheet */}
+      <Sheet open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
+        <SheetContent className="bg-card border-border sm:max-w-sm">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-foreground">Delete Vehicle</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-4">
+            <p className="text-sm text-muted-foreground">Are you sure you want to remove this vehicle? This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+              <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
