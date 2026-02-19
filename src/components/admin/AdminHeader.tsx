@@ -1,6 +1,7 @@
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, Sun, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/use-theme";
 
 interface AdminHeaderProps {
   title: string;
@@ -8,6 +9,8 @@ interface AdminHeaderProps {
 }
 
 const AdminHeader = ({ title, description }: AdminHeaderProps) => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div className="border-b border-border bg-card/50 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -26,6 +29,15 @@ const AdminHeader = ({ title, description }: AdminHeaderProps) => {
               className="w-64 bg-secondary border-border pl-9 h-9 text-sm"
             />
           </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
 
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="w-4 h-4" />
