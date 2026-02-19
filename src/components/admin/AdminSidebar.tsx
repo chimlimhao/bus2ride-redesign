@@ -5,7 +5,6 @@ import {
   CalendarDays,
   MessageSquareQuote,
   HelpCircle,
-  FileText,
   Image,
   Settings,
   LogOut,
@@ -19,9 +18,16 @@ import {
   Phone,
   Layers,
   Star,
-  ImageIcon,
   Type,
   List,
+  Megaphone,
+  BookOpen,
+  Route,
+  BarChart3,
+  Award,
+  Clock,
+  Gift,
+  Sparkles,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -53,10 +59,14 @@ const sidebarGroups: SidebarGroup[] = [
         icon: Home,
         path: "/admin/content",
         children: [
+          { title: "Top Banner", icon: Megaphone, path: "/admin/content?section=banner" },
           { title: "Hero Section", icon: Type, path: "/admin/content?section=hero" },
-          { title: "Fleet Showcase", icon: Car, path: "/admin/content?section=fleet" },
+          { title: "Fleet Showcase", icon: Car, path: "/admin/content?section=fleet-showcase" },
+          { title: "How It Works", icon: Route, path: "/admin/content?section=how-it-works" },
+          { title: "Events Showcase", icon: CalendarDays, path: "/admin/content?section=events-showcase" },
           { title: "Testimonials", icon: Star, path: "/admin/content?section=testimonials" },
-          { title: "CTA Sections", icon: Layers, path: "/admin/content?section=cta" },
+          { title: "Recommended", icon: Gift, path: "/admin/content?section=recommended" },
+          { title: "CTA Section", icon: Layers, path: "/admin/content?section=cta" },
         ],
       },
       {
@@ -77,14 +87,42 @@ const sidebarGroups: SidebarGroup[] = [
         ],
       },
       {
+        title: "Services Page",
+        icon: BookOpen,
+        path: "/admin/content?section=services",
+        children: [
+          { title: "Service Types", icon: List, path: "/admin/content?section=services" },
+          { title: "Features Bar", icon: Sparkles, path: "/admin/content?section=services-features" },
+        ],
+      },
+      {
         title: "About Page",
         icon: Info,
         path: "/admin/content?section=about",
+        children: [
+          { title: "Our Story", icon: BookOpen, path: "/admin/content?section=about-story" },
+          { title: "Stats", icon: BarChart3, path: "/admin/content?section=about-stats" },
+          { title: "Values", icon: Award, path: "/admin/content?section=about-values" },
+          { title: "Milestones", icon: Clock, path: "/admin/content?section=about-milestones" },
+        ],
       },
       {
         title: "Contact Page",
         icon: Phone,
         path: "/admin/content?section=contact",
+        children: [
+          { title: "Contact Info", icon: Phone, path: "/admin/content?section=contact-info" },
+          { title: "Contact Form", icon: Type, path: "/admin/content?section=contact-form" },
+        ],
+      },
+      {
+        title: "Pricing Page",
+        icon: DollarSign,
+        path: "/admin/content?section=pricing",
+        children: [
+          { title: "Pricing Tiers", icon: DollarSign, path: "/admin/content?section=pricing-tiers" },
+          { title: "Comparison Table", icon: List, path: "/admin/content?section=pricing-comparison" },
+        ],
       },
     ],
   },
@@ -106,7 +144,7 @@ const sidebarGroups: SidebarGroup[] = [
 
 const AdminSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [expandedItems, setExpandedItems] = useState<string[]>(["Home Page", "Fleet Page"]);
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Home Page"]);
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) =>
