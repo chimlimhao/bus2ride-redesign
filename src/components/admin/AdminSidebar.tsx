@@ -11,32 +11,114 @@ import {
   LogOut,
   Crown,
   ChevronLeft,
+  ChevronDown,
   DollarSign,
   Users,
+  Home,
+  Info,
+  Phone,
+  Layers,
+  Star,
+  ImageIcon,
+  Type,
+  List,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { title: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
-  { title: "Fleet Vehicles", icon: Car, path: "/admin/fleet" },
-  { title: "Events & Services", icon: CalendarDays, path: "/admin/events" },
-  { title: "Testimonials", icon: MessageSquareQuote, path: "/admin/testimonials" },
-  { title: "FAQ Management", icon: HelpCircle, path: "/admin/faq" },
-  { title: "Page Content", icon: FileText, path: "/admin/content" },
-  { title: "Media Gallery", icon: Image, path: "/admin/media" },
-  { title: "Pricing", icon: DollarSign, path: "/admin/pricing" },
-  { title: "Inquiries", icon: Users, path: "/admin/inquiries" },
+interface SidebarGroup {
+  label: string;
+  items: SidebarItem[];
+}
+
+interface SidebarItem {
+  title: string;
+  icon: any;
+  path: string;
+  children?: { title: string; icon: any; path: string }[];
+}
+
+const sidebarGroups: SidebarGroup[] = [
+  {
+    label: "Overview",
+    items: [
+      { title: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
+    ],
+  },
+  {
+    label: "Pages",
+    items: [
+      {
+        title: "Home Page",
+        icon: Home,
+        path: "/admin/content",
+        children: [
+          { title: "Hero Section", icon: Type, path: "/admin/content?section=hero" },
+          { title: "Fleet Showcase", icon: Car, path: "/admin/content?section=fleet" },
+          { title: "Testimonials", icon: Star, path: "/admin/content?section=testimonials" },
+          { title: "CTA Sections", icon: Layers, path: "/admin/content?section=cta" },
+        ],
+      },
+      {
+        title: "Fleet Page",
+        icon: Car,
+        path: "/admin/fleet",
+        children: [
+          { title: "Vehicles", icon: List, path: "/admin/fleet" },
+          { title: "Pricing", icon: DollarSign, path: "/admin/pricing" },
+        ],
+      },
+      {
+        title: "Events Page",
+        icon: CalendarDays,
+        path: "/admin/events",
+        children: [
+          { title: "Event Types", icon: List, path: "/admin/events" },
+        ],
+      },
+      {
+        title: "About Page",
+        icon: Info,
+        path: "/admin/content?section=about",
+      },
+      {
+        title: "Contact Page",
+        icon: Phone,
+        path: "/admin/content?section=contact",
+      },
+    ],
+  },
+  {
+    label: "Content",
+    items: [
+      { title: "Testimonials", icon: MessageSquareQuote, path: "/admin/testimonials" },
+      { title: "FAQ Management", icon: HelpCircle, path: "/admin/faq" },
+      { title: "Media Gallery", icon: Image, path: "/admin/media" },
+    ],
+  },
+  {
+    label: "Business",
+    items: [
+      { title: "Inquiries", icon: Users, path: "/admin/inquiries" },
+    ],
+  },
 ];
 
 const AdminSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Home Page", "Fleet Page"]);
+
+  const toggleExpand = (title: string) => {
+    setExpandedItems((prev) =>
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+    );
+  };
 
   return (
     <aside
       className={cn(
         "h-screen sticky top-0 bg-card border-r border-border flex flex-col transition-all duration-300",
-        collapsed ? "w-[68px]" : "w-[260px]"
+        collapsed ? "w-[68px]" : "w-[280px]"
       )}
     >
       {/* Brand */}
@@ -61,28 +143,66 @@ const AdminSidebar = () => {
       </button>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 overflow-y-auto">
-        <div className={cn("px-3 mb-2", collapsed && "px-2")}>
-          {!collapsed && (
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3 px-2">
-              Management
-            </p>
-          )}
-          <ul className="space-y-1">
-            {navItems.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200 group"
-                  activeClassName="bg-primary/10 text-primary border-r-2 border-primary"
-                >
-                  <item.icon className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
-                  {!collapsed && <span className="truncate">{item.title}</span>}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <nav className="flex-1 py-3 overflow-y-auto">
+        {sidebarGroups.map((group) => (
+          <div key={group.label} className={cn("mb-1", collapsed ? "px-2" : "px-3")}>
+            {!collapsed && (
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2 mt-3 px-2">
+                {group.label}
+              </p>
+            )}
+            <ul className="space-y-0.5">
+              {group.items.map((item) => (
+                <li key={item.title}>
+                  {item.children && !collapsed ? (
+                    <div>
+                      <button
+                        onClick={() => toggleExpand(item.title)}
+                        className="flex items-center justify-between w-full px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200 group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <item.icon className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                          <span className="truncate">{item.title}</span>
+                        </div>
+                        <ChevronDown
+                          className={cn(
+                            "w-3 h-3 text-muted-foreground transition-transform duration-200",
+                            expandedItems.includes(item.title) && "rotate-180"
+                          )}
+                        />
+                      </button>
+                      {expandedItems.includes(item.title) && (
+                        <ul className="ml-4 pl-3 border-l border-border/50 space-y-0.5 mt-0.5 mb-1">
+                          {item.children.map((child) => (
+                            <li key={child.path + child.title}>
+                              <NavLink
+                                to={child.path}
+                                className="flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-all duration-200 group"
+                                activeClassName="bg-primary/10 text-primary"
+                              >
+                                <child.icon className="w-3.5 h-3.5 shrink-0 group-hover:text-primary transition-colors" />
+                                <span className="truncate">{child.title}</span>
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ) : (
+                    <NavLink
+                      to={item.path}
+                      className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200 group"
+                      activeClassName="bg-primary/10 text-primary border-r-2 border-primary"
+                    >
+                      <item.icon className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                      {!collapsed && <span className="truncate">{item.title}</span>}
+                    </NavLink>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
 
       {/* Bottom section */}
