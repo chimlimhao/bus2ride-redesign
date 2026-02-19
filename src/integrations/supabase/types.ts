@@ -14,16 +14,303 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_type: string | null
+          feature_image_url: string | null
+          features: string[] | null
+          id: string
+          image_url: string | null
+          popular_vehicles: Json | null
+          slug: string
+          sort_order: number | null
+          status: string
+          subtitle: string | null
+          tips: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_type?: string | null
+          feature_image_url?: string | null
+          features?: string[] | null
+          id?: string
+          image_url?: string | null
+          popular_vehicles?: Json | null
+          slug: string
+          sort_order?: number | null
+          status?: string
+          subtitle?: string | null
+          tips?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_type?: string | null
+          feature_image_url?: string | null
+          features?: string[] | null
+          id?: string
+          image_url?: string | null
+          popular_vehicles?: Json | null
+          slug?: string
+          sort_order?: number | null
+          status?: string
+          subtitle?: string | null
+          tips?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      faqs: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string
+          id: string
+          question: string
+          sort_order: number | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          question: string
+          sort_order?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          question?: string
+          sort_order?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      fleet_vehicles: {
+        Row: {
+          amenities: string[] | null
+          created_at: string
+          description: string | null
+          features: string[] | null
+          gallery_urls: string[] | null
+          id: string
+          image_url: string | null
+          name: string
+          passengers: number | null
+          price_from: string | null
+          slug: string
+          sort_order: number | null
+          status: string
+          tagline: string | null
+          updated_at: string
+          variants: Json | null
+        }
+        Insert: {
+          amenities?: string[] | null
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          gallery_urls?: string[] | null
+          id?: string
+          image_url?: string | null
+          name: string
+          passengers?: number | null
+          price_from?: string | null
+          slug: string
+          sort_order?: number | null
+          status?: string
+          tagline?: string | null
+          updated_at?: string
+          variants?: Json | null
+        }
+        Update: {
+          amenities?: string[] | null
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          gallery_urls?: string[] | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          passengers?: number | null
+          price_from?: string | null
+          slug?: string
+          sort_order?: number | null
+          status?: string
+          tagline?: string | null
+          updated_at?: string
+          variants?: Json | null
+        }
+        Relationships: []
+      }
+      inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          event_date: string | null
+          event_type: string | null
+          guests: number | null
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          event_date?: string | null
+          event_type?: string | null
+          guests?: number | null
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_date?: string | null
+          event_type?: string | null
+          guests?: number | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: string[] | null
+          id: string
+          image_url: string | null
+          slug: string
+          sort_order: number | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          image_url?: string | null
+          slug: string
+          sort_order?: number | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          image_url?: string | null
+          slug?: string
+          sort_order?: number | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          avatar_url: string | null
+          content: string
+          created_at: string
+          id: string
+          name: string
+          rating: number | null
+          role: string | null
+          sort_order: number | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          name: string
+          rating?: number | null
+          role?: string | null
+          sort_order?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          name?: string
+          rating?: number | null
+          role?: string | null
+          sort_order?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +437,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
