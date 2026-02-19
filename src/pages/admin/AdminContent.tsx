@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, RotateCcw, Plus, Trash2, Check } from "lucide-react";
+import { Save, RotateCcw, Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 import partyBusImg from "@/assets/fleet/party-bus-hero.jpg";
@@ -141,8 +141,6 @@ const Field = ({ label, value, type = "text", rows, onChange }: { label: string;
   </div>
 );
 
-/* ─── Deletable Item Wrapper ─── */
-
 const DeletableItem = ({ title, onDelete, children }: { title: string; onDelete: () => void; children: React.ReactNode }) => (
   <div className="p-4 bg-secondary/50 border border-border">
     <div className="flex items-center justify-between mb-3">
@@ -154,6 +152,45 @@ const DeletableItem = ({ title, onDelete, children }: { title: string; onDelete:
     {children}
   </div>
 );
+
+/* ─── Image Thumbnail with working file picker ─── */
+
+const ImageUploadField = ({ src, alt, onImageChange }: { src: string; alt: string; onImageChange: (url: string) => void }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      onImageChange(url);
+    }
+  };
+
+  return (
+    <div className="shrink-0 space-y-2">
+      <Label className="text-foreground text-sm">Image</Label>
+      <div
+        className="w-32 h-24 bg-secondary border border-border overflow-hidden relative group cursor-pointer"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        {src ? (
+          <img src={src} alt={alt} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground text-xs gap-1">
+            <ImageIcon className="w-5 h-5" />
+            <span>No image</span>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <span className="text-white text-xs flex items-center gap-1">
+            <Upload className="w-3 h-3" /> Change
+          </span>
+        </div>
+      </div>
+      <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileSelect} />
+    </div>
+  );
+};
 
 /* ─── Section Components ─── */
 
@@ -251,6 +288,11 @@ const FleetShowcaseSection = ({ onChange }: SectionProps) => {
     onChange?.();
   };
 
+  const updateVehicleImage = (i: number, url: string) => {
+    setVehicles((prev) => prev.map((v, idx) => idx === i ? { ...v, image: url } : v));
+    onChange?.();
+  };
+
   return (
     <SectionCard title="Fleet Showcase Cards" subtitle="Vehicle cards shown on the homepage">
       <Field label="Section Title" value="Our Fleet" onChange={onChange} />
@@ -259,21 +301,7 @@ const FleetShowcaseSection = ({ onChange }: SectionProps) => {
         {vehicles.map((v, i) => (
           <DeletableItem key={i} title={v.name} onDelete={() => deleteVehicle(i)}>
             <div className="flex gap-4">
-              <div className="shrink-0 space-y-2">
-                <Label className="text-foreground text-sm">Image</Label>
-                <div className="w-32 h-24 bg-secondary border border-border overflow-hidden relative group">
-                  {v.image ? (
-                    <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">No image</div>
-                  )}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button variant="ghost" size="sm" className="text-white text-xs h-7 gap-1">
-                      <Plus className="w-3 h-3" /> Change
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <ImageUploadField src={v.image} alt={v.name} onImageChange={(url) => updateVehicleImage(i, url)} />
               <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Field label="Title" value={v.name} onChange={onChange} />
                 <Field label="Passengers" value={v.passengers} onChange={onChange} />
@@ -315,7 +343,12 @@ const HowItWorksSection = ({ onChange }: SectionProps) => (
 const EventsShowcaseSection = ({ onChange }: SectionProps) => {
   const { toast } = useToast();
   const [events, setEvents] = useState([
-    "Weddings", "Corporate Events", "Prom & Homecoming", "Bachelor & Bachelorette", "Sports & Game Day", "Concerts & Festivals",
+    { title: "Weddings", desc: "Make your special day unforgettable with elegant transportation.", image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" },
+    { title: "Corporate Events", desc: "Professional transportation for meetings and conferences.", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800" },
+    { title: "Prom & Homecoming", desc: "Safe and stylish rides for your special school events.", image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800" },
+    { title: "Bachelor & Bachelorette", desc: "Party buses and limos for your celebration.", image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800" },
+    { title: "Sports & Game Day", desc: "Group transportation for tailgates and sporting events.", image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?q=80&w=800" },
+    { title: "Concerts & Festivals", desc: "Ride in style to your favorite live events.", image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=800" },
   ]);
 
   const deleteEvent = (i: number) => {
@@ -325,8 +358,13 @@ const EventsShowcaseSection = ({ onChange }: SectionProps) => {
   };
 
   const addEvent = () => {
-    setEvents((prev) => [...prev, "New Event"]);
+    setEvents((prev) => [...prev, { title: "New Event", desc: "Description here.", image: "" }]);
     toast({ title: "Event card added" });
+    onChange?.();
+  };
+
+  const updateEventImage = (i: number, url: string) => {
+    setEvents((prev) => prev.map((e, idx) => idx === i ? { ...e, image: url } : e));
     onChange?.();
   };
 
@@ -336,10 +374,15 @@ const EventsShowcaseSection = ({ onChange }: SectionProps) => {
       <Field label="Section Subtitle" value="Whatever the occasion, we have the perfect transportation solution." rows={2} onChange={onChange} />
       <div className="space-y-4 mt-4">
         {events.map((e, i) => (
-          <DeletableItem key={i} title={e} onDelete={() => deleteEvent(i)}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Field label="Title" value={e} onChange={onChange} />
-              <Field label="Description" value="Elegant transportation for your special day." onChange={onChange} />
+          <DeletableItem key={i} title={e.title} onDelete={() => deleteEvent(i)}>
+            <div className="flex gap-4">
+              <ImageUploadField src={e.image} alt={e.title} onImageChange={(url) => updateEventImage(i, url)} />
+              <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Field label="Title" value={e.title} onChange={onChange} />
+                <div className="md:col-span-2">
+                  <Field label="Description" value={e.desc} onChange={onChange} />
+                </div>
+              </div>
             </div>
           </DeletableItem>
         ))}
@@ -351,16 +394,72 @@ const EventsShowcaseSection = ({ onChange }: SectionProps) => {
   );
 };
 
-const TestimonialsSection = ({ onChange }: SectionProps) => (
-  <SectionCard title="Testimonials Section Header" subtitle="Section heading shown above testimonials">
-    <Field label="Label" value="Testimonials" onChange={onChange} />
-    <Field label="Title" value="What Our Clients Say" onChange={onChange} />
-    <Field label="Subtitle" value="See what our customers have to say about their experience with Bus2Ride." rows={2} onChange={onChange} />
-    <p className="text-xs text-muted-foreground pt-2">
-      To manage individual testimonials, go to <span className="text-gold font-medium">Content → Testimonials</span>.
-    </p>
-  </SectionCard>
-);
+const TestimonialsSection = ({ onChange }: SectionProps) => {
+  const { toast } = useToast();
+  const [testimonials, setTestimonials] = useState([
+    { name: "Jennifer Martinez", role: "Wedding Client", text: "Bus2Ride made our wedding day absolutely perfect...", image: "https://randomuser.me/api/portraits/women/1.jpg", rating: 5 },
+    { name: "Michael Chen", role: "Corporate Event Planner", text: "We've used Bus2Ride for multiple corporate events...", image: "https://randomuser.me/api/portraits/men/2.jpg", rating: 5 },
+    { name: "Sarah Johnson", role: "Prom Parent", text: "As a parent, safety was my top priority...", image: "https://randomuser.me/api/portraits/women/3.jpg", rating: 5 },
+    { name: "David Thompson", role: "Bachelor Party", text: "The party bus was a hit at my bachelor party!...", image: "https://randomuser.me/api/portraits/men/4.jpg", rating: 5 },
+    { name: "Amanda Roberts", role: "Corporate Client", text: "Professional service from start to finish...", image: "https://randomuser.me/api/portraits/women/5.jpg", rating: 5 },
+    { name: "Lisa Williams", role: "HR Director", text: "We used Bus2Ride for our company retreat...", image: "https://randomuser.me/api/portraits/women/6.jpg", rating: 4 },
+    { name: "Robert Garcia", role: "Wine Tour Guest", text: "Outstanding experience for our wine tour!...", image: "https://randomuser.me/api/portraits/men/7.jpg", rating: 5 },
+    { name: "Emily Davis", role: "Business Traveler", text: "Used their airport transfer service and it was impeccable...", image: "https://randomuser.me/api/portraits/women/8.jpg", rating: 5 },
+    { name: "Maria Gonzalez", role: "Quinceañera Client", text: "Bus2Ride made our quinceañera extra special...", image: "https://randomuser.me/api/portraits/women/9.jpg", rating: 5 },
+  ]);
+
+  const deleteTestimonial = (i: number) => {
+    setTestimonials((prev) => prev.filter((_, idx) => idx !== i));
+    toast({ title: "Testimonial removed" });
+    onChange?.();
+  };
+
+  const addTestimonial = () => {
+    setTestimonials((prev) => [...prev, { name: "New Customer", role: "Client", text: "Testimonial text...", image: "", rating: 5 }]);
+    toast({ title: "Testimonial added" });
+    onChange?.();
+  };
+
+  const updateTestimonialImage = (i: number, url: string) => {
+    setTestimonials((prev) => prev.map((t, idx) => idx === i ? { ...t, image: url } : t));
+    onChange?.();
+  };
+
+  return (
+    <>
+      <SectionCard title="Testimonials Section Header" subtitle="Section heading shown above testimonials">
+        <Field label="Label" value="Testimonials" onChange={onChange} />
+        <Field label="Title" value="What Our Clients Say" onChange={onChange} />
+        <Field label="Subtitle" value="See what our customers have to say about their experience with Bus2Ride." rows={2} onChange={onChange} />
+      </SectionCard>
+      <SectionCard title="Testimonial Cards" subtitle="Individual testimonials with profile pictures">
+        <div className="space-y-4">
+          {testimonials.map((t, i) => (
+            <DeletableItem key={i} title={t.name} onDelete={() => deleteTestimonial(i)}>
+              <div className="flex gap-4">
+                <div className="shrink-0 space-y-2">
+                  <Label className="text-foreground text-sm">Profile Picture</Label>
+                  <ImageUploadField src={t.image} alt={t.name} onImageChange={(url) => updateTestimonialImage(i, url)} />
+                </div>
+                <div className="flex-1 space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Field label="Name" value={t.name} onChange={onChange} />
+                    <Field label="Role / Event Type" value={t.role} onChange={onChange} />
+                  </div>
+                  <Field label="Rating (1-5)" value={String(t.rating)} onChange={onChange} />
+                  <Field label="Testimonial Text" value={t.text} rows={3} onChange={onChange} />
+                </div>
+              </div>
+            </DeletableItem>
+          ))}
+          <Button variant="outline" className="gap-2 w-full border-dashed border-gold/30 text-gold hover:bg-gold/5" onClick={addTestimonial}>
+            <Plus className="w-4 h-4" /> Add Testimonial
+          </Button>
+        </div>
+      </SectionCard>
+    </>
+  );
+};
 
 const RecommendedSection = ({ onChange }: SectionProps) => {
   const { toast } = useToast();
@@ -554,12 +653,12 @@ const ContactFormSection = ({ onChange }: SectionProps) => (
 const ServicesSection = ({ onChange }: SectionProps) => {
   const { toast } = useToast();
   const [services, setServices] = useState([
-    { title: "Airport Transfers", subtitle: "Reliable pickup and drop-off service", desc: "Start and end your journey stress-free..." },
-    { title: "Corporate Transportation", subtitle: "Professional business travel solutions", desc: "Impress clients and keep your team moving..." },
-    { title: "Group Charters", subtitle: "Custom transportation for any group size", desc: "Whether it's a school field trip, church outing..." },
-    { title: "Wine Tours & Tastings", subtitle: "Explore vineyards in style", desc: "Tour local wineries and enjoy tastings..." },
-    { title: "Casino Trips", subtitle: "Round-trip casino transportation", desc: "Enjoy a night at the casino without the hassle..." },
-    { title: "City Tours", subtitle: "Explore the city in comfort", desc: "Discover the best sights and attractions..." },
+    { title: "Airport Transfers", subtitle: "Reliable pickup and drop-off service", desc: "Start and end your journey stress-free...", image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=800" },
+    { title: "Corporate Transportation", subtitle: "Professional business travel solutions", desc: "Impress clients and keep your team moving...", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800" },
+    { title: "Group Charters", subtitle: "Custom transportation for any group size", desc: "Whether it's a school field trip, church outing...", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800" },
+    { title: "Wine Tours & Tastings", subtitle: "Explore vineyards in style", desc: "Tour local wineries and enjoy tastings...", image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=800" },
+    { title: "Casino Trips", subtitle: "Round-trip casino transportation", desc: "Enjoy a night at the casino without the hassle...", image: "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=800" },
+    { title: "City Tours", subtitle: "Explore the city in comfort", desc: "Discover the best sights and attractions...", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=800" },
   ]);
 
   const deleteService = (i: number) => {
@@ -569,8 +668,13 @@ const ServicesSection = ({ onChange }: SectionProps) => {
   };
 
   const addService = () => {
-    setServices((prev) => [...prev, { title: "New Service", subtitle: "Subtitle", desc: "Description" }]);
+    setServices((prev) => [...prev, { title: "New Service", subtitle: "Subtitle", desc: "Description", image: "" }]);
     toast({ title: "Service added" });
+    onChange?.();
+  };
+
+  const updateServiceImage = (i: number, url: string) => {
+    setServices((prev) => prev.map((s, idx) => idx === i ? { ...s, image: url } : s));
     onChange?.();
   };
 
@@ -578,12 +682,15 @@ const ServicesSection = ({ onChange }: SectionProps) => {
     <SectionCard title="Service Types" subtitle="Services listed on the Services page">
       {services.map((s, i) => (
         <DeletableItem key={i} title={s.title} onDelete={() => deleteService(i)}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <Field label="Title" value={s.title} onChange={onChange} />
-            <Field label="Subtitle" value={s.subtitle} onChange={onChange} />
-          </div>
-          <div className="mt-3">
-            <Field label="Description" value={s.desc} rows={2} onChange={onChange} />
+          <div className="flex gap-4">
+            <ImageUploadField src={s.image} alt={s.title} onImageChange={(url) => updateServiceImage(i, url)} />
+            <div className="flex-1 space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Field label="Title" value={s.title} onChange={onChange} />
+                <Field label="Subtitle" value={s.subtitle} onChange={onChange} />
+              </div>
+              <Field label="Description" value={s.desc} rows={2} onChange={onChange} />
+            </div>
           </div>
         </DeletableItem>
       ))}
