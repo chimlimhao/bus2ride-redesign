@@ -1,0 +1,22 @@
+{
+    "name": "@bus2ride/shared",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "echo 'shared: no build step needed'",
+        "lint": "tsc --noEmit"
+    },
+    "exports": {
+        "./supabase": "./src/supabase/client.ts",
+        "./supabase/types": "./src/supabase/types.ts",
+        "./lib": "./src/lib/utils.ts"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.97.0"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1",
+        "typescript": "^5.8.3"
+    }
+}
