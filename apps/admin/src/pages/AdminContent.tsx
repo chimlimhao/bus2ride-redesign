@@ -41,6 +41,8 @@ const getSupabaseInfo = (section: string) => {
     case "services": return { slug: "services", sectionId: "hero" };
     case "services-features": return { slug: "services", sectionId: "features" };
     case "pricing-tiers": case "pricing": return { slug: "pricing", sectionId: "hero" };
+    case "header": return { slug: "global", sectionId: "header" };
+    case "footer": return { slug: "global", sectionId: "footer" };
     default: return { slug: "home", sectionId: "hero" };
   }
 };
@@ -158,6 +160,8 @@ const AdminContent = () => {
       case "services-features": return <ServicesFeaturesSection data={data} onChange={updateData} />;
       case "pricing-tiers": case "pricing": return <PricingTiersSection data={data} onChange={updateData} />;
       case "pricing-comparison": return <PricingComparisonSection />;
+      case "header": return <HeaderSection data={data} onChange={updateData} />;
+      case "footer": return <FooterSection data={data} onChange={updateData} />;
       default: return <HeroSection data={data} onChange={updateData} />;
     }
   };
@@ -184,6 +188,8 @@ const AdminContent = () => {
     "pricing-tiers": { title: "Pricing Tiers", description: "Manage vehicle pricing cards." },
     pricing: { title: "Pricing Tiers", description: "Manage vehicle pricing cards." },
     "pricing-comparison": { title: "Comparison Table", description: "Edit the vehicle comparison table." },
+    header: { title: "Header / Navigation", description: "Edit the site name, phone number, and CTA button text shown in the top navigation." },
+    footer: { title: "Footer", description: "Edit the footer tagline, service/company links, and legal text." },
   };
 
   const current = sectionTitles[section] || { title: "Page Content", description: "Edit page content." };
@@ -974,5 +980,88 @@ const PricingComparisonSection = () => (
     </p>
   </SectionCard>
 );
+
+const HeaderSection = ({ data, onChange }: SectionProps) => (
+  <>
+    <SectionCard title="Navigation Bar" subtitle="Content shown in the top navigation across all pages">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field label="Site Name" value={data.site_name} onChange={(val) => onChange({ ...data, site_name: val })} />
+        <Field label="Phone Number" value={data.phone} onChange={(val) => onChange({ ...data, phone: val })} />
+      </div>
+      <Field label="CTA Button Label" value={data.cta_label} onChange={(val) => onChange({ ...data, cta_label: val })} />
+      <p className="text-[10px] text-muted-foreground italic mt-1">
+        Tip: The site name and phone number are also used by the Site Settings. Changes here will override the displayed value in the portal header only.
+      </p>
+    </SectionCard>
+    <SectionCard title="Navigation Links" subtitle="Top navigation menu items and their paths">
+      <p className="text-xs text-muted-foreground">
+        Navigation links (Fleet, Services, Events, Pricing, Contact) are fixed routes. They are not editable here, but you can control which pages are published from each respective page section.
+      </p>
+    </SectionCard>
+  </>
+);
+
+const FooterSection = ({ data, onChange }: SectionProps) => {
+  const updateLink = (group: "fleet_links" | "service_links" | "company_links", i: number, field: "label" | "url", val: string) => {
+    const links = [...(data[group] || [])];
+    links[i] = { ...links[i], [field]: val };
+    onChange({ ...data, [group]: links });
+  };
+
+  const addLink = (group: "fleet_links" | "service_links" | "company_links") => {
+    const links = [...(data[group] || []), { label: "New Link", url: "/" }];
+    onChange({ ...data, [group]: links });
+  };
+
+  const removeLink = (group: "fleet_links" | "service_links" | "company_links", i: number) => {
+    const links = (data[group] || []).filter((_: any, idx: number) => idx !== i);
+    onChange({ ...data, [group]: links });
+  };
+
+  const renderLinkGroup = (title: string, group: "fleet_links" | "service_links" | "company_links") => (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs font-semibold text-gold uppercase tracking-wider">{title}</p>
+        <Button variant="outline" size="sm" className="h-7 text-xs gap-1" onClick={() => addLink(group)}>
+          <Plus className="w-3 h-3" /> Add
+        </Button>
+      </div>
+      <div className="space-y-2">
+        {(data[group] || []).map((link: any, i: number) => (
+          <div key={i} className="flex gap-2">
+            <Input value={link.label} onChange={e => updateLink(group, i, "label", e.target.value)}
+              className="bg-secondary border-border text-sm" placeholder="Label" />
+            <Input value={link.url} onChange={e => updateLink(group, i, "url", e.target.value)}
+              className="bg-secondary border-border text-sm font-mono text-xs" placeholder="/path" />
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-destructive hover:text-destructive flex-shrink-0"
+              onClick={() => removeLink(group, i)}>
+              <Trash2 className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        ))}
+        {!(data[group]?.length) && (
+          <p className="text-xs text-muted-foreground italic">No links yet.</p>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <SectionCard title="Brand & Tagline" subtitle="Footer brand text and description">
+        <Field label="Tagline / Description" value={data.tagline} rows={2} type="textarea"
+          onChange={(val) => onChange({ ...data, tagline: val })} />
+        <Field label="Copyright Text" value={data.copyright} onChange={(val) => onChange({ ...data, copyright: val })} />
+      </SectionCard>
+      <SectionCard title="Footer Links" subtitle="Links shown in the footer columns">
+        <div className="space-y-6">
+          {renderLinkGroup("Fleet Column", "fleet_links")}
+          {renderLinkGroup("Services Column", "service_links")}
+          {renderLinkGroup("Company Column", "company_links")}
+        </div>
+      </SectionCard>
+    </>
+  );
+};
 
 export default AdminContent;

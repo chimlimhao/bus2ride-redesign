@@ -27,6 +27,8 @@ import {
   Clock,
   Gift,
   Sparkles,
+  Navigation,
+  FootprintsIcon,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -127,6 +129,15 @@ const sidebarGroups: SidebarGroup[] = [
         children: [
           { title: "Pricing Tiers", icon: DollarSign, path: "/content?section=pricing-tiers" },
           { title: "Comparison Table", icon: List, path: "/content?section=pricing-comparison" },
+        ],
+      },
+      {
+        title: "Header & Footer",
+        icon: Navigation,
+        path: "/content?section=header",
+        children: [
+          { title: "Header / Nav", icon: Navigation, path: "/content?section=header" },
+          { title: "Footer", icon: FootprintsIcon, path: "/content?section=footer" },
         ],
       },
     ],

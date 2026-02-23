@@ -1,84 +1,160 @@
 import AdminHeader from "@/components/admin/AdminHeader";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Star, Check, X, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, Star, Check, X, Upload, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@bus2ride/shared/supabase";
+import { uploadImage } from "@/lib/supabase-storage";
+import type { Tables } from "@bus2ride/shared/supabase/types";
 
-interface Testimonial {
-  id: number;
+type DbTestimonial = Tables<"testimonials">;
+
+interface TestimonialForm {
+  id: string;
   name: string;
-  event: string;
+  role: string;
+  content: string;
   rating: number;
   status: string;
-  text: string;
-  image: string;
-  role: string;
+  avatar_url: string;
+  sort_order: number;
 }
 
-const initialTestimonials: Testimonial[] = [
-  { id: 1, name: "Jennifer Martinez", event: "Wedding", rating: 5, status: "Approved", text: "Bus2Ride made our wedding day absolutely perfect. The limousine was immaculate, and our chauffeur was professional and punctual.", image: "https://randomuser.me/api/portraits/women/1.jpg", role: "Wedding Client" },
-  { id: 2, name: "Michael Chen", event: "Corporate", rating: 5, status: "Pending", text: "We've used Bus2Ride for multiple corporate events. Their coach buses are always clean, drivers are professional.", image: "https://randomuser.me/api/portraits/men/2.jpg", role: "Corporate Event Planner" },
-  { id: 3, name: "Sarah Johnson", event: "Prom", rating: 5, status: "Approved", text: "As a parent, safety was my top priority. Bus2Ride exceeded all expectations.", image: "https://randomuser.me/api/portraits/women/3.jpg", role: "Prom Parent" },
-  { id: 4, name: "David Thompson", event: "Bachelor Party", rating: 5, status: "Approved", text: "The party bus was a hit at my bachelor party! Great sound system, comfortable seating.", image: "https://randomuser.me/api/portraits/men/4.jpg", role: "Bachelor Party" },
-  { id: 5, name: "Amanda Roberts", event: "Corporate", rating: 5, status: "Pending", text: "Professional service from start to finish. The booking process was seamless.", image: "https://randomuser.me/api/portraits/women/5.jpg", role: "Corporate Client" },
-];
+const emptyForm: TestimonialForm = {
+  id: "",
+  name: "",
+  role: "",
+  content: "",
+  rating: 5,
+  status: "Draft",
+  avatar_url: "",
+  sort_order: 0,
+};
+
+function dbToForm(t: DbTestimonial): TestimonialForm {
+  return {
+    id: t.id,
+    name: t.name,
+    role: t.role || "",
+    content: t.content,
+    rating: t.rating || 5,
+    status: t.status,
+    avatar_url: t.avatar_url || "",
+    sort_order: t.sort_order || 0,
+  };
+}
 
 const AdminTestimonials = () => {
   const { toast } = useToast();
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(initialTestimonials);
-  const [editingItem, setEditingItem] = useState<Testimonial | null>(null);
+  const [testimonials, setTestimonials] = useState<DbTestimonial[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+  const [editingItem, setEditingItem] = useState<TestimonialForm | null>(null);
   const [isAdding, setIsAdding] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAdd = () => {
-    setEditingItem({ id: Date.now(), name: "", event: "", rating: 5, status: "Pending", text: "", image: "", role: "" });
-    setIsAdding(true);
-  };
+  // ── Fetch ──────────────────────────────────────────────────────────────────
+  async function fetchTestimonials() {
+    setLoadingData(true);
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("*")
+      .order("sort_order", { ascending: true });
 
-  const handleSave = () => {
-    if (!editingItem) return;
-    if (isAdding) {
-      setTestimonials((prev) => [...prev, editingItem]);
-      toast({ title: "Testimonial added" });
+    if (error) {
+      toast({ title: "Error loading testimonials", description: error.message, variant: "destructive" });
     } else {
-      setTestimonials((prev) => prev.map((t) => t.id === editingItem.id ? editingItem : t));
-      toast({ title: "Testimonial updated" });
+      setTestimonials(data || []);
     }
-    setEditingItem(null);
-    setIsAdding(false);
-  };
+    setLoadingData(false);
+  }
 
-  const handleDelete = (id: number) => {
-    setTestimonials((prev) => prev.filter((t) => t.id !== id));
-    toast({ title: "Testimonial removed" });
-    setDeleteConfirm(null);
-  };
+  useEffect(() => { fetchTestimonials(); }, []);
 
-  const handleApprove = (id: number) => {
-    setTestimonials((prev) => prev.map((t) => t.id === id ? { ...t, status: "Approved" } : t));
-    toast({ title: "Testimonial approved" });
-  };
-
-  const handleReject = (id: number) => {
-    setTestimonials((prev) => prev.map((t) => t.id === id ? { ...t, status: "Rejected" } : t));
-    toast({ title: "Testimonial rejected" });
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // ── Avatar upload ──────────────────────────────────────────────────────────
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && editingItem) {
-      const url = URL.createObjectURL(file);
-      setEditingItem({ ...editingItem, image: url });
+    if (!file || !editingItem) return;
+    setUploadingAvatar(true);
+    try {
+      const url = await uploadImage(file, "testimonial-avatars");
+      setEditingItem({ ...editingItem, avatar_url: url });
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } finally {
+      setUploadingAvatar(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
+
+  // ── Save ───────────────────────────────────────────────────────────────────
+  const handleSave = async () => {
+    if (!editingItem) return;
+    setSaving(true);
+
+    const payload = {
+      name: editingItem.name,
+      role: editingItem.role || null,
+      content: editingItem.content,
+      rating: editingItem.rating,
+      status: editingItem.status,
+      avatar_url: editingItem.avatar_url || null,
+      sort_order: editingItem.sort_order,
+    };
+
+    let error;
+    if (isAdding) {
+      ({ error } = await supabase.from("testimonials").insert(payload));
+    } else {
+      ({ error } = await supabase.from("testimonials").update(payload).eq("id", editingItem.id));
+    }
+
+    if (error) {
+      toast({ title: "Save failed", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: isAdding ? "Testimonial added" : "Testimonial updated", description: `"${editingItem.name}" saved successfully.` });
+      setEditingItem(null);
+      setIsAdding(false);
+      fetchTestimonials();
+    }
+    setSaving(false);
+  };
+
+  // ── Delete ─────────────────────────────────────────────────────────────────
+  const handleDelete = async (id: string) => {
+    const item = testimonials.find(t => t.id === id);
+    const { error } = await supabase.from("testimonials").delete().eq("id", id);
+    if (error) {
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Testimonial deleted", description: `"${item?.name}" has been removed.` });
+      setDeleteConfirm(null);
+      fetchTestimonials();
+    }
+  };
+
+  // ── Quick status toggle ────────────────────────────────────────────────────
+  const updateStatus = async (id: string, status: string) => {
+    const { error } = await supabase.from("testimonials").update({ status }).eq("id", id);
+    if (error) {
+      toast({ title: "Update failed", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: `Testimonial ${status === "Published" ? "published" : "unpublished"}` });
+      fetchTestimonials();
+    }
+  };
+
+  const pendingCount = testimonials.filter(t => t.status === "Draft").length;
 
   return (
     <div>
@@ -87,12 +163,20 @@ const AdminTestimonials = () => {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <p className="text-sm text-muted-foreground">{testimonials.length} total</p>
-            <Badge className="bg-gold/10 text-gold border-gold/20">
-              {testimonials.filter(t => t.status === "Pending").length} pending
-            </Badge>
+            <p className="text-sm text-muted-foreground">
+              {loadingData ? "Loading..." : `${testimonials.length} total`}
+            </p>
+            {pendingCount > 0 && (
+              <Badge className="bg-gold/10 text-gold border-gold/20">
+                {pendingCount} draft
+              </Badge>
+            )}
           </div>
-          <Button className="gap-2 bg-gold text-gold-foreground hover:bg-gold/90" size="sm" onClick={handleAdd}>
+          <Button
+            className="gap-2 bg-gold text-gold-foreground hover:bg-gold/90"
+            size="sm"
+            onClick={() => { setEditingItem({ ...emptyForm }); setIsAdding(true); }}
+          >
             <Plus className="w-4 h-4" /> Add Testimonial
           </Button>
         </div>
@@ -102,7 +186,6 @@ const AdminTestimonials = () => {
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground">Customer</TableHead>
-                <TableHead className="text-muted-foreground">Event</TableHead>
                 <TableHead className="text-muted-foreground">Rating</TableHead>
                 <TableHead className="text-muted-foreground">Excerpt</TableHead>
                 <TableHead className="text-muted-foreground">Status</TableHead>
@@ -110,12 +193,23 @@ const AdminTestimonials = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {testimonials.map((t) => (
+              {loadingData ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-12">
+                    <Loader2 className="w-6 h-6 animate-spin text-gold mx-auto" />
+                  </TableCell>
+                </TableRow>
+              ) : testimonials.map((t) => (
                 <TableRow key={t.id} className="border-border hover:bg-secondary/30">
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full overflow-hidden bg-secondary border border-border shrink-0">
-                        {t.image ? <img src={t.image} alt={t.name} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-gold/20" />}
+                        {t.avatar_url
+                          ? <img src={t.avatar_url} alt={t.name} className="w-full h-full object-cover" />
+                          : <div className="w-full h-full bg-gold/20 flex items-center justify-center text-gold text-xs font-bold">
+                            {t.name.charAt(0)}
+                          </div>
+                        }
                       </div>
                       <div>
                         <span className="font-medium text-foreground text-sm">{t.name}</span>
@@ -123,30 +217,59 @@ const AdminTestimonials = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{t.event}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-0.5">
-                      {Array.from({ length: t.rating }).map((_, i) => (
+                      {Array.from({ length: t.rating || 5 }).map((_, i) => (
                         <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground text-xs max-w-[200px] truncate">{t.text}</TableCell>
+                  <TableCell className="text-muted-foreground text-xs max-w-[200px] truncate">
+                    {t.content}
+                  </TableCell>
                   <TableCell>
-                    <Badge className={t.status === "Approved" ? "bg-green-500/10 text-green-400 border-green-500/20" : t.status === "Rejected" ? "bg-destructive/10 text-destructive border-destructive/20" : "bg-gold/10 text-gold border-gold/20"}>
+                    <Badge className={
+                      t.status === "Published"
+                        ? "bg-green-500/10 text-green-400 border-green-500/20"
+                        : "bg-gold/10 text-gold border-gold/20"
+                    }>
                       {t.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-1">
-                      {t.status === "Pending" && (
-                        <>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-green-400 hover:text-green-400" onClick={() => handleApprove(t.id)}><Check className="w-3.5 h-3.5" /></Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleReject(t.id)}><X className="w-3.5 h-3.5" /></Button>
-                        </>
+                      {t.status === "Draft" && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs gap-1.5 border-green-500/30 text-green-400 hover:bg-green-500/10 hover:text-green-400"
+                          onClick={() => updateStatus(t.id, "Published")}
+                        >
+                          <Check className="w-3 h-3" /> Publish
+                        </Button>
                       )}
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditingItem({ ...t }); setIsAdding(false); }}><Pencil className="w-3.5 h-3.5" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteConfirm(t.id)}><Trash2 className="w-3.5 h-3.5" /></Button>
+                      {t.status === "Published" && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs gap-1.5 border-border text-muted-foreground hover:text-foreground"
+                          onClick={() => updateStatus(t.id, "Draft")}
+                        >
+                          <X className="w-3 h-3" /> Unpublish
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost" size="icon" className="h-8 w-8"
+                        onClick={() => { setEditingItem(dbToForm(t)); setIsAdding(false); }}
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"
+                        onClick={() => setDeleteConfirm(t.id)}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -156,73 +279,127 @@ const AdminTestimonials = () => {
         </div>
       </div>
 
-      {/* Edit/Add Sheet */}
+      {/* ── Edit / Add Sheet ──────────────────────────────────────────────────── */}
       <Sheet open={!!editingItem} onOpenChange={() => { setEditingItem(null); setIsAdding(false); }}>
         <SheetContent className="bg-card border-border sm:max-w-lg overflow-y-auto">
           <SheetHeader>
-            <SheetTitle className="font-serif text-foreground">{isAdding ? "Add Testimonial" : "Edit Testimonial"}</SheetTitle>
+            <SheetTitle className="font-serif text-foreground">
+              {isAdding ? "Add Testimonial" : "Edit Testimonial"}
+            </SheetTitle>
           </SheetHeader>
           {editingItem && (
             <div className="space-y-4 mt-4">
+              {/* Avatar + Name/Role */}
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-secondary border border-border shrink-0 relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-                  {editingItem.image ? <img src={editingItem.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-muted-foreground"><Upload className="w-5 h-5" /></div>}
+                <div
+                  className="w-16 h-16 rounded-full overflow-hidden bg-secondary border border-border shrink-0 relative group cursor-pointer"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {editingItem.avatar_url
+                    ? <img src={editingItem.avatar_url} alt="" className="w-full h-full object-cover" />
+                    : <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                      {uploadingAvatar ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+                    </div>
+                  }
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full">
-                    <Upload className="w-4 h-4 text-white" />
+                    {uploadingAvatar
+                      ? <Loader2 className="w-4 h-4 text-white animate-spin" />
+                      : <Upload className="w-4 h-4 text-white" />
+                    }
                   </div>
                 </div>
                 <div className="flex-1 grid grid-cols-2 gap-3">
                   <div className="space-y-2">
                     <Label className="text-foreground">Name</Label>
-                    <Input value={editingItem.name} onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })} className="bg-secondary border-border" />
+                    <Input
+                      value={editingItem.name}
+                      onChange={e => setEditingItem({ ...editingItem, name: e.target.value })}
+                      className="bg-secondary border-border"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-foreground">Role</Label>
-                    <Input value={editingItem.role} onChange={(e) => setEditingItem({ ...editingItem, role: e.target.value })} className="bg-secondary border-border" />
+                    <Label className="text-foreground">Role / Event</Label>
+                    <Input
+                      value={editingItem.role}
+                      onChange={e => setEditingItem({ ...editingItem, role: e.target.value })}
+                      className="bg-secondary border-border"
+                      placeholder="e.g. Wedding Client"
+                    />
                   </div>
                 </div>
               </div>
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+
+              {/* Rating / Status / Sort */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="space-y-2">
-                  <Label className="text-foreground">Event</Label>
-                  <Input value={editingItem.event} onChange={(e) => setEditingItem({ ...editingItem, event: e.target.value })} className="bg-secondary border-border" />
-                </div>
-                <div className="space-y-2">
                   <Label className="text-foreground">Rating</Label>
-                  <Select value={String(editingItem.rating)} onValueChange={(val) => setEditingItem({ ...editingItem, rating: parseInt(val) })}>
+                  <Select
+                    value={String(editingItem.rating)}
+                    onValueChange={val => setEditingItem({ ...editingItem, rating: parseInt(val) })}
+                  >
                     <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {[1,2,3,4,5].map(n => <SelectItem key={n} value={String(n)}>{n} Star{n > 1 ? "s" : ""}</SelectItem>)}
+                      {[1, 2, 3, 4, 5].map(n => (
+                        <SelectItem key={n} value={String(n)}>{n} Star{n > 1 ? "s" : ""}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-foreground">Status</Label>
-                  <Select value={editingItem.status} onValueChange={(val) => setEditingItem({ ...editingItem, status: val })}>
+                  <Select
+                    value={editingItem.status}
+                    onValueChange={val => setEditingItem({ ...editingItem, status: val })}
+                  >
                     <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Pending">Pending</SelectItem>
-                      <SelectItem value="Approved">Approved</SelectItem>
-                      <SelectItem value="Rejected">Rejected</SelectItem>
+                      <SelectItem value="Published">Published</SelectItem>
+                      <SelectItem value="Draft">Draft</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+                <div className="space-y-2">
+                  <Label className="text-foreground">Sort Order</Label>
+                  <Input
+                    type="number"
+                    value={editingItem.sort_order}
+                    onChange={e => setEditingItem({ ...editingItem, sort_order: parseInt(e.target.value) || 0 })}
+                    className="bg-secondary border-border"
+                  />
+                </div>
               </div>
+
+              {/* Testimonial Text */}
               <div className="space-y-2">
                 <Label className="text-foreground">Testimonial Text</Label>
-                <Textarea value={editingItem.text} onChange={(e) => setEditingItem({ ...editingItem, text: e.target.value })} className="bg-secondary border-border" rows={4} />
+                <Textarea
+                  value={editingItem.content}
+                  onChange={e => setEditingItem({ ...editingItem, content: e.target.value })}
+                  className="bg-secondary border-border"
+                  rows={4}
+                  placeholder="What did the customer say?"
+                />
               </div>
+
               <div className="flex justify-end gap-2 pt-2">
-                <Button variant="outline" onClick={() => { setEditingItem(null); setIsAdding(false); }}>Cancel</Button>
-                <Button className="bg-gold text-gold-foreground hover:bg-gold/90" onClick={handleSave}>{isAdding ? "Add" : "Save Changes"}</Button>
+                <Button variant="outline" onClick={() => { setEditingItem(null); setIsAdding(false); }}>
+                  Cancel
+                </Button>
+                <Button
+                  className="bg-gold text-gold-foreground hover:bg-gold/90"
+                  onClick={handleSave}
+                  disabled={saving}
+                >
+                  {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving…</> : isAdding ? "Add" : "Save Changes"}
+                </Button>
               </div>
             </div>
           )}
         </SheetContent>
       </Sheet>
 
-      {/* Delete Confirmation Sheet */}
+      {/* ── Delete Confirmation ───────────────────────────────────────────────── */}
       <Sheet open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
         <SheetContent className="bg-card border-border sm:max-w-sm">
           <SheetHeader>
@@ -232,7 +409,12 @@ const AdminTestimonials = () => {
             <p className="text-sm text-muted-foreground">Are you sure? This action cannot be undone.</p>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
-              <Button variant="destructive" onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}>Delete</Button>
+              <Button
+                variant="destructive"
+                onClick={() => deleteConfirm !== null && handleDelete(deleteConfirm)}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         </SheetContent>
